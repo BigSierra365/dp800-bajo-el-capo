@@ -56,3 +56,43 @@ IF (SELECT COUNT(*) FROM #ranking) <> 3
 DROP TABLE #ranking;
 PRINT N'OK J: buscador con top, filtros, orden por distancia y uso por un comercial';
 GO
+
+-- K: RAG · recuperación, respuesta y caso de control
+-- K1: la recuperación limita las averías al modelo; el Jogger no recupera ninguna
+DECLARE @v VECTOR(1024) = AI_GENERATE_EMBEDDINGS(N'¿Qué averías suele tener y cuánto cuesta repararlas?' USE MODEL EmbeddingsBgeM3);
+IF (SELECT COUNT(*) FROM ia.fn_documentos_rag(@v, N'Peugeot 308 SW', 5) WHERE tipo = N'avería') <> 5
+    THROW 50070, N'K1: no se recuperaron 5 averías del Peugeot 308 SW.', 1;
+IF EXISTS (SELECT 1 FROM ia.fn_documentos_rag(@v, N'Peugeot 308 SW', 5) AS d
+           WHERE d.tipo = N'avería'
+             AND NOT EXISTS (SELECT 1 FROM taller.vw_averias_por_modelo AS a
+                             WHERE a.marca = N'Peugeot' AND a.modelo = N'308 SW'
+                               AND d.documento LIKE CONCAT(N'Avería: ', a.titulo, N'.%')))
+    THROW 50071, N'K1: se recuperaron averías que no son del Peugeot 308 SW.', 1;
+IF EXISTS (SELECT 1 FROM ia.fn_documentos_rag(@v, N'Dacia Jogger', 5) WHERE tipo = N'avería')
+    THROW 50072, N'K1: el Dacia Jogger no debería recuperar averías.', 1;
+IF ia.fn_contexto_rag(@v, N'Dacia Jogger', 5) NOT LIKE N'%(ninguna)%'
+    THROW 50073, N'K1: el contexto del Jogger debería indicar (ninguna).', 1;
+GO
+
+-- K2: un mecánico usa el asesor (EXECUTE AS ia_servicio) y recibe una respuesta con texto
+DECLARE @respuesta NVARCHAR(MAX);
+EXECUTE AS USER = N'mecanico_demo';
+EXEC ia.sp_asesor_averias @pregunta = N'¿Qué averías suele tener y cuánto cuesta repararlas?',
+                          @modelo = N'Peugeot 308 SW', @respuesta = @respuesta OUTPUT;
+REVERT;
+IF NULLIF(LTRIM(@respuesta), N'') IS NULL
+    THROW 50074, N'K2: el asesor no devolvió respuesta.', 1;
+GO
+
+-- K3: caso de control · criterio: la respuesta del Jogger no cita ningún título de avería de la
+--     base de datos y dice que no hay datos («no» + «datos», «información» o «registr»)
+DECLARE @respuesta NVARCHAR(MAX);
+EXEC ia.sp_asesor_averias @pregunta = N'¿Qué averías suele tener y cuánto cuesta repararlas?',
+                          @modelo = N'Dacia Jogger', @respuesta = @respuesta OUTPUT;
+IF EXISTS (SELECT 1 FROM taller.Averias WHERE @respuesta LIKE CONCAT(N'%', titulo, N'%'))
+    THROW 50075, N'K3: el caso de control cita averías que no están en su contexto.', 1;
+IF NOT (@respuesta LIKE N'%no %' AND (@respuesta LIKE N'%datos%' OR @respuesta LIKE N'%información%' OR @respuesta LIKE N'%registr%'))
+    THROW 50076, N'K3: el caso de control no indica que no hay datos.', 1;
+PRINT CONCAT(N'Respuesta del caso de control: ', @respuesta);
+PRINT N'OK K: RAG con recuperación por modelo, uso por un mecánico y caso de control sin inventar';
+GO

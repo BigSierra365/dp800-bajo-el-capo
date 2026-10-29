@@ -2,9 +2,9 @@
 
 | Campo | Valor |
 | --- | --- |
-| Feature actual | 004 · búsqueda semántica (cerrada) |
-| Último paso completado | `run_all.ps1 -ConIA` en verde (I, J); evidencia 004 con mismo top en las dos vías |
-| Siguiente paso | Feature 005 · RAG (rama `005-rag` desde `004-busqueda-semantica`) |
+| Feature actual | 005 · RAG (cerrada) |
+| Último paso completado | `run_all.ps1 -ConIA` en verde (A–K); evidencia 005 con las 4 partes y el caso de control por las dos vías |
+| Siguiente paso | Feature 006 · documentación (rama `006-documentacion` desde `005-rag`) |
 | Bloqueos | Ninguno. Ollama y Caddy responden. |
 
 ## Historial
@@ -14,6 +14,7 @@
 - 2026-10-29 · 002 cerrada: RLS, DDM y GRANT/DENY; bloque G en verde.
 - 2026-10-29 · 003 cerrada: Clustered Index Scan -> Index Seek; bloque H en verde. 07 funcionó al primer intento (sin caso de bloque B).
 - 2026-10-29 · 004 cerrada: 228 coches y 57 averías con vector; tres frases con el mismo top por SSMS y terminal.
+- 2026-10-29 · 005 cerrada: RAG por las dos vías con contexto idéntico; el Jogger responde «No hay averías registradas para ese modelo.»
 
 ## Capturas pendientes del alumno
 
