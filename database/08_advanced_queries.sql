@@ -82,8 +82,9 @@ SELECT JSON_OBJECT(
            'km'         : v.kilometros,
            'precio'     : v.precio_venta,
            'extras'     : JSON_QUERY(v.equipamiento, '$.extras'),
-           'averias_top': (SELECT JSON_ARRAYAGG(f.titulo ORDER BY f.riesgo DESC)
-                           FROM taller.fn_averias_modelo(v.modelo_id) AS f)
+           -- CAST AS JSON evita que el array ordenado de la subconsulta se escape como texto
+           'averias_top': CAST((SELECT JSON_ARRAYAGG(f.titulo ORDER BY f.riesgo DESC)
+                                FROM taller.fn_averias_modelo(v.modelo_id) AS f) AS JSON)
        ) AS ficha_json
 FROM catalogo.Vehiculos AS v
 JOIN catalogo.Modelos   AS mo ON mo.modelo_id = v.modelo_id

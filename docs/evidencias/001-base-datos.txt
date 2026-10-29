@@ -1,0 +1,557 @@
+﻿
+Bajo el Capó · run_all.ps1 · servidor: localhost · ConIA: False
+=== database\01_create_database.sql
+Se cambió el contexto de la base de datos a 'master'.
+Se están revirtiendo las transacciones no calificadas. Estimación de porcentaje de reversión: 0%.
+Se están revirtiendo las transacciones no calificadas. Estimación de porcentaje de reversión: 100%.
+Se cambió el contexto de la base de datos a 'BajoElCapoDB'.
+BajoElCapoDB creada correctamente con 5 esquemas.
+--- OK database\01_create_database.sql (3.3 s)
+=== database\02_create_tables.sql
+Se cambió el contexto de la base de datos a 'BajoElCapoDB'.
+9 tablas creadas correctamente.
+--- OK database\02_create_tables.sql (0.1 s)
+=== database\03_insert_data.sql
+Se cambió el contexto de la base de datos a 'BajoElCapoDB'.
+tabla filas
+----- -----
+Marcas 8
+Modelos 24
+Vehiculos 228
+Averias 57
+ModeloAveria 207
+Comerciales 4
+Clientes 24
+Reservas 44
+Ventas 16
+estado coches
+------ ------
+Disponible 194
+Reservado 18
+Vendido 16
+Datos de prueba cargados correctamente.
+--- OK database\03_insert_data.sql (0.5 s)
+=== database\04_views.sql
+Se cambió el contexto de la base de datos a 'BajoElCapoDB'.
+Vistas creadas: vw_catalogo, vw_averias_por_modelo, vw_reservas.
+--- OK database\04_views.sql (0.1 s)
+=== database\05_procedures.sql
+Se cambió el contexto de la base de datos a 'BajoElCapoDB'.
+Funciones, procedimientos y trigger creados.
+--- OK database\05_procedures.sql (0.1 s)
+--- database\06_security.sql (vacío, se omite)
+--- database\07_indexes.sql (vacío, se omite)
+=== database\08_advanced_queries.sql
+Se cambió el contexto de la base de datos a 'BajoElCapoDB'.
+marca modelo posicion titulo frecuencia gravedad
+----- ------ -------- ------ ---------- --------
+Dacia Duster 1 Ruidos en la suspensión delantera 4 2
+Dacia Duster 2 Electroválvula del sistema GLP sucia 3 2
+Dacia Duster 3 Óxido en bajos y pasos de rueda 3 2
+Dacia Sandero 1 Electroválvula del sistema GLP sucia 3 2
+Dacia Sandero 2 Óxido en bajos y pasos de rueda 3 2
+Dacia Sandero 3 Ruidos en la suspensión delantera 3 2
+Ford Fiesta 1 Correa de distribución húmeda degradada (1.0 EcoBoost) 3 5
+Ford Fiesta 2 Sobrecalentamiento por manguito de refrigerante (1.0 EcoBoost) 3 5
+Ford Fiesta 3 Embrague de la caja Powershift con vibraciones 3 4
+Ford Focus 1 Embrague de la caja Powershift con vibraciones 4 4
+Ford Focus 2 Correa de distribución húmeda degradada (1.0 EcoBoost) 3 5
+Ford Focus 3 Sobrecalentamiento por manguito de refrigerante (1.0 EcoBoost) 3 5
+Ford Kuga 1 Enfriador de la EGR agrietado (2.0 TDCi) 3 4
+Ford Kuga 2 Volante bimasa desgastado 3 4
+Ford Kuga 3 Filtro de partículas colmatado 3 3
+Kia Ceed 1 Consumo de aceite en el motor 1.6 GDI 2 4
+Kia Ceed 2 Fuga en los inyectores (1.6 CRDi) 2 3
+Kia Ceed 3 Alternador sin carga 2 3
+Kia Sportage 1 Fuga en los inyectores (1.6 CRDi) 3 3
+Kia Sportage 2 Consumo de aceite en el motor 1.6 GDI 2 4
+Kia Sportage 3 Volante bimasa desgastado 2 4
+Kia Stinger 1 Desgaste rápido de frenos y neumáticos 4 2
+Kia Stinger 2 Turbo con holgura (3.3 T-GDi) 2 4
+Kia Stinger 3 Zumbido del diferencial trasero 2 3
+Peugeot 208 1 Correa de distribución en baño de aceite degradada (1.2 PureTech) 4 5
+Peugeot 208 2 Consumo excesivo de aceite (1.2 PureTech) 3 4
+Peugeot 208 3 Batería de 12 V agotada 3 2
+Peugeot 3008 1 Correa de distribución en baño de aceite degradada (1.2 PureTech) 4 5
+Peugeot 3008 2 Consumo excesivo de aceite (1.2 PureTech) 3 4
+Peugeot 3008 3 Depósito de AdBlue averiado 3 4
+Peugeot 308 SW 1 Correa de distribución en baño de aceite degradada (1.2 PureTech) 4 5
+Peugeot 308 SW 2 Consumo excesivo de aceite (1.2 PureTech) 3 4
+Peugeot 308 SW 3 Depósito de AdBlue averiado 3 4
+Renault Clio 1 Bomba de alta presión de inyección (1.5 dCi) 3 4
+Renault Clio 2 Batería de 12 V agotada 3 2
+Renault Clio 3 Navegador R-Link sin respuesta 3 1
+Renault Mégane 1 Bomba de alta presión de inyección (1.5 dCi) 3 4
+Renault Mégane 2 Volante bimasa desgastado 3 4
+Renault Mégane 3 Freno de estacionamiento eléctrico bloqueado 3 3
+Renault Scénic 1 Freno de estacionamiento eléctrico bloqueado 4 3
+Renault Scénic 2 Bomba de alta presión de inyección (1.5 dCi) 3 4
+Renault Scénic 3 Volante bimasa desgastado 3 4
+Seat Ateca 1 Válvula EGR obstruida (2.0 TDI) 3 3
+Seat Ateca 2 Filtro de partículas colmatado 3 3
+Seat Ateca 3 Bomba de agua con fuga (1.4 TSI) 2 4
+Seat Ibiza 1 Embrague de la caja DSG7 con tirones 3 4
+Seat Ibiza 2 Bobina de encendido defectuosa 3 2
+Seat Ibiza 3 Batería de 12 V agotada 3 2
+Seat León 1 Embrague de la caja DSG7 con tirones 4 4
+Seat León 2 Cadena de distribución estirada (1.4 TSI) 3 5
+Seat León 3 Bomba de agua con fuga (1.4 TSI) 3 4
+Toyota C-HR 1 Batería de 12 V descargada en el híbrido 3 2
+Toyota C-HR 2 Bomba de refrigeración del inversor híbrido 2 4
+Toyota C-HR 3 Discos de freno corroídos por la frenada regenerativa 2 2
+Toyota Corolla Touring Sports 1 Bomba de refrigeración del inversor híbrido 2 4
+Toyota Corolla Touring Sports 2 Batería de 12 V descargada en el híbrido 2 2
+Toyota Corolla Touring Sports 3 Discos de freno corroídos por la frenada regenerativa 2 2
+Toyota Yaris 1 Batería de 12 V descargada en el híbrido 3 2
+Toyota Yaris 2 Bomba de refrigeración del inversor híbrido 2 4
+Toyota Yaris 3 Discos de freno corroídos por la frenada regenerativa 2 2
+Volkswagen Golf 1 Embrague de la caja DSG7 con tirones 4 4
+Volkswagen Golf 2 Mecatrónica de la caja DSG averiada 3 5
+Volkswagen Golf 3 Cadena de distribución estirada (1.4 TSI) 3 5
+Volkswagen Passat 1 Válvula EGR obstruida (2.0 TDI) 4 3
+Volkswagen Passat 2 Volante bimasa desgastado 3 4
+Volkswagen Passat 3 Filtro de partículas colmatado 3 3
+Volkswagen Polo 1 Embrague de la caja DSG7 con tirones 3 4
+Volkswagen Polo 2 Bobina de encendido defectuosa 3 2
+Volkswagen Polo 3 Batería de 12 V agotada 3 2
+
+(69 filas afectadas)
+segmento marca modelo matricula precio_venta media_segmento diferencia puesto_mas_barato
+-------- ----- ------ --------- ------------ -------------- ---------- -----------------
+Berlina Volkswagen Passat 8465YXK 5050.00 13205.00 -8155.00 1
+Berlina Volkswagen Passat 2104ZNX 7050.00 13205.00 -6155.00 2
+Berlina Volkswagen Passat 0344LKF 11700.00 13205.00 -1505.00 3
+Berlina Volkswagen Passat 6724VMN 11800.00 13205.00 -1405.00 4
+Berlina Volkswagen Passat 1590KVH 13800.00 13205.00 595.00 5
+Berlina Volkswagen Passat 6642FFS 13800.00 13205.00 595.00 5
+Berlina Volkswagen Passat 4183HCJ 13950.00 13205.00 745.00 7
+Berlina Volkswagen Passat 3881HXJ 16350.00 13205.00 3145.00 8
+Berlina Volkswagen Passat 9621FFK 19250.00 13205.00 6045.00 9
+Berlina Volkswagen Passat 2758DLJ 19300.00 13205.00 6095.00 10
+Compacto Seat León 8682JWG 3500.00 6452.56 -2952.56 1
+Compacto Seat León 7662HNW 3500.00 6452.56 -2952.56 1
+Compacto Volkswagen Golf 5783YLN 3500.00 6452.56 -2952.56 1
+Compacto Volkswagen Golf 5802VGF 3500.00 6452.56 -2952.56 1
+Compacto Ford Focus 9742TWK 3500.00 6452.56 -2952.56 1
+Compacto Ford Focus 6854RCH 3500.00 6452.56 -2952.56 1
+Compacto Ford Focus 3569JTM 3500.00 6452.56 -2952.56 1
+Compacto Ford Focus 2956FSW 3500.00 6452.56 -2952.56 1
+Compacto Ford Focus 8134HPP 3500.00 6452.56 -2952.56 1
+Compacto Ford Focus 7033LXY 3500.00 6452.56 -2952.56 1
+Compacto Volkswagen Golf 3619WPX 3750.00 6452.56 -2702.56 11
+Compacto Ford Focus 2285CHR 4450.00 6452.56 -2002.56 12
+Compacto Renault Mégane 7715PJJ 4850.00 6452.56 -1602.56 13
+Compacto Seat León 2010FCG 4900.00 6452.56 -1552.56 14
+Compacto Volkswagen Golf 3949WNL 5250.00 6452.56 -1202.56 15
+Compacto Ford Focus 6149HGM 5250.00 6452.56 -1202.56 15
+Compacto Ford Focus 8292KJF 5250.00 6452.56 -1202.56 15
+Compacto Volkswagen Golf 4593MHG 5350.00 6452.56 -1102.56 18
+Compacto Seat León 8967RCJ 5750.00 6452.56 -702.56 19
+Compacto Seat León 0465XXR 5800.00 6452.56 -652.56 20
+Compacto Seat León 7144HFC 5800.00 6452.56 -652.56 20
+Compacto Seat León 4273LDB 5800.00 6452.56 -652.56 20
+Compacto Renault Mégane 0557MGL 5800.00 6452.56 -652.56 20
+Compacto Volkswagen Golf 3090FYV 6250.00 6452.56 -202.56 24
+Compacto Kia Ceed 2974LDP 6500.00 6452.56 47.44 25
+Compacto Kia Ceed 6348LGV 6550.00 6452.56 97.44 26
+Compacto Renault Mégane 5573LDM 6850.00 6452.56 397.44 27
+Compacto Volkswagen Golf 8779SST 7400.00 6452.56 947.44 28
+Compacto Volkswagen Golf 5798ZHF 7450.00 6452.56 997.44 29
+Compacto Volkswagen Golf 9420TZV 7450.00 6452.56 997.44 29
+Compacto Kia Ceed 7590YLW 7700.00 6452.56 1247.44 31
+Compacto Renault Mégane 8790WZC 8000.00 6452.56 1547.44 32
+Compacto Renault Mégane 9205BMS 8000.00 6452.56 1547.44 32
+Compacto Seat León 2989BPH 8100.00 6452.56 1647.44 34
+Compacto Kia Ceed 4485NXY 10700.00 6452.56 4247.44 35
+Compacto Renault Mégane 5420SLR 11350.00 6452.56 4897.44 36
+Compacto Renault Mégane 4892GCD 13450.00 6452.56 6997.44 37
+Compacto Kia Ceed 0120GNM 15050.00 6452.56 8597.44 38
+Compacto Kia Ceed 0585KHV 17850.00 6452.56 11397.44 39
+Deportivo Kia Stinger 2155KGP 9850.00 16285.71 -6435.71 1
+Deportivo Kia Stinger 3940FRF 9950.00 16285.71 -6335.71 2
+Deportivo Kia Stinger 6224NKV 11800.00 16285.71 -4485.71 3
+Deportivo Kia Stinger 1125SMT 13950.00 16285.71 -2335.71 4
+Deportivo Kia Stinger 1295ZMR 14050.00 16285.71 -2235.71 5
+Deportivo Kia Stinger 9130TRM 27000.00 16285.71 10714.29 6
+Deportivo Kia Stinger 3465FDF 27400.00 16285.71 11114.29 7
+Familiar Peugeot 308 SW 2848BWG 3600.00 13744.44 -10144.44 1
+Familiar Peugeot 308 SW 5321LJF 4350.00 13744.44 -9394.44 2
+Familiar Peugeot 308 SW 0986FXW 6000.00 13744.44 -7744.44 3
+Familiar Peugeot 308 SW 4463XGZ 8400.00 13744.44 -5344.44 4
+Familiar Peugeot 308 SW 1537JWP 8450.00 13744.44 -5294.44 5
+Familiar Peugeot 308 SW 4262KGV 8500.00 13744.44 -5244.44 6
+Familiar Toyota Corolla Touring Sports 1813WCT 8700.00 13744.44 -5044.44 7
+Familiar Peugeot 308 SW 2916RYP 9950.00 13744.44 -3794.44 8
+Familiar Toyota Corolla Touring Sports 5925BSY 10150.00 13744.44 -3594.44 9
+Familiar Toyota Corolla Touring Sports 4972LWB 16900.00 13744.44 3155.56 10
+Familiar Toyota Corolla Touring Sports 0463VLT 16950.00 13744.44 3205.56 11
+Familiar Toyota Corolla Touring Sports 5552SSB 17100.00 13744.44 3355.56 12
+Familiar Toyota Corolla Touring Sports 8736LNS 19900.00 13744.44 6155.56 13
+Familiar Toyota Corolla Touring Sports 8468WVW 19900.00 13744.44 6155.56 13
+Familiar Toyota Corolla Touring Sports 8858XVW 20100.00 13744.44 6355.56 15
+Familiar Toyota Corolla Touring Sports 4396XNG 20150.00 13744.44 6405.56 16
+Familiar Toyota Corolla Touring Sports 9892NKD 20300.00 13744.44 6555.56 17
+Familiar Toyota Corolla Touring Sports 7061DKL 28000.00 13744.44 14255.56 18
+Monovolumen Renault Scénic 9455NKL 6600.00 13265.38 -6665.38 1
+Monovolumen Renault Scénic 1930KSK 7800.00 13265.38 -5465.38 2
+Monovolumen Renault Scénic 8803DBS 9150.00 13265.38 -4115.38 3
+Monovolumen Dacia Jogger 3991BYH 10000.00 13265.38 -3265.38 4
+Monovolumen Dacia Jogger 5095FTK 10000.00 13265.38 -3265.38 4
+Monovolumen Renault Scénic 2167JZM 10800.00 13265.38 -2465.38 6
+Monovolumen Dacia Jogger 4390DZV 13900.00 13265.38 634.62 7
+Monovolumen Dacia Jogger 1693VXN 16300.00 13265.38 3034.62 8
+Monovolumen Dacia Jogger 2182VNP 16350.00 13265.38 3084.62 9
+Monovolumen Dacia Jogger 5451JZN 16450.00 13265.38 3184.62 10
+Monovolumen Dacia Jogger 4602JZY 16500.00 13265.38 3234.62 11
+Monovolumen Dacia Jogger 9540BGT 19100.00 13265.38 5834.62 12
+Monovolumen Dacia Jogger 9683NWS 19500.00 13265.38 6234.62 13
+SUV Ford Kuga 8278VMN 3500.00 10867.65 -7367.65 1
+SUV Ford Kuga 8044TPT 3500.00 10867.65 -7367.65 1
+SUV Ford Kuga 0517ZJC 4150.00 10867.65 -6717.65 3
+SUV Ford Kuga 4011XSN 4150.00 10867.65 -6717.65 3
+SUV Ford Kuga 0523DHD 4850.00 10867.65 -6017.65 5
+SUV Ford Kuga 5758KJD 4900.00 10867.65 -5967.65 6
+SUV Toyota C-HR 4912JJN 5000.00 10867.65 -5867.65 7
+SUV Kia Sportage 5282MDW 5050.00 10867.65 -5817.65 8
+SUV Kia Sportage 2857YGK 5100.00 10867.65 -5767.65 9
+SUV Dacia Duster 2499XBW 5300.00 10867.65 -5567.65 10
+SUV Peugeot 3008 7932TFB 5600.00 10867.65 -5267.65 11
+SUV Toyota C-HR 0695VVT 5950.00 10867.65 -4917.65 12
+SUV Toyota C-HR 1200NXR 5950.00 10867.65 -4917.65 12
+SUV Seat Ateca 6376NXL 5950.00 10867.65 -4917.65 12
+SUV Toyota C-HR 2844TLL 6000.00 10867.65 -4867.65 15
+SUV Kia Sportage 3216HLN 6000.00 10867.65 -4867.65 15
+SUV Kia Sportage 4015JXK 6000.00 10867.65 -4867.65 15
+SUV Dacia Duster 3211YBB 6200.00 10867.65 -4667.65 18
+SUV Dacia Duster 6044LYK 6250.00 10867.65 -4617.65 19
+SUV Dacia Duster 3503HLZ 6300.00 10867.65 -4567.65 20
+SUV Ford Kuga 1382YTS 6850.00 10867.65 -4017.65 21
+SUV Seat Ateca 4958JXG 7050.00 10867.65 -3817.65 22
+SUV Kia Sportage 3592VVM 7050.00 10867.65 -3817.65 22
+SUV Dacia Duster 2177VFT 7250.00 10867.65 -3617.65 24
+SUV Peugeot 3008 7334ZHD 7900.00 10867.65 -2967.65 25
+SUV Ford Kuga 8433FSH 8000.00 10867.65 -2867.65 26
+SUV Kia Sportage 4939FGY 8400.00 10867.65 -2467.65 27
+SUV Kia Sportage 7906CDD 8400.00 10867.65 -2467.65 27
+SUV Kia Sportage 0955WDT 8400.00 10867.65 -2467.65 27
+SUV Kia Sportage 0300LSN 9800.00 10867.65 -1067.65 30
+SUV Seat Ateca 8804HWB 9800.00 10867.65 -1067.65 30
+SUV Kia Sportage 7023PKR 9900.00 10867.65 -967.65 32
+SUV Kia Sportage 6906SXJ 9900.00 10867.65 -967.65 32
+SUV Dacia Duster 7206CKK 10200.00 10867.65 -667.65 34
+SUV Dacia Duster 2095FJC 10250.00 10867.65 -617.65 35
+SUV Dacia Duster 2013MJW 10350.00 10867.65 -517.65 36
+SUV Toyota C-HR 3274GBD 11700.00 10867.65 832.35 37
+SUV Toyota C-HR 7897LNF 11750.00 10867.65 882.35 38
+SUV Dacia Duster 1817CVT 12100.00 10867.65 1232.35 39
+SUV Toyota C-HR 1136DRH 13900.00 10867.65 3032.35 40
+SUV Dacia Duster 0321XTN 14300.00 10867.65 3432.35 41
+SUV Peugeot 3008 8031MLT 15300.00 10867.65 4432.35 42
+SUV Peugeot 3008 9412RPT 15450.00 10867.65 4582.35 43
+SUV Seat Ateca 9102WKP 22850.00 10867.65 11982.35 44
+SUV Peugeot 3008 4000GSR 25350.00 10867.65 14482.35 45
+SUV Peugeot 3008 2884WGH 25550.00 10867.65 14682.35 46
+SUV Seat Ateca 7087WXN 26950.00 10867.65 16082.35 47
+SUV Seat Ateca 3292PPT 27000.00 10867.65 16132.35 48
+SUV Seat Ateca 6107XLG 27000.00 10867.65 16132.35 48
+SUV Peugeot 3008 6143GFG 29850.00 10867.65 18982.35 50
+SUV Peugeot 3008 7057HHC 30000.00 10867.65 19132.35 51
+Utilitario Toyota Yaris 2965CVM 3500.00 6349.11 -2849.11 1
+Utilitario Toyota Yaris 7043CSL 3500.00 6349.11 -2849.11 1
+Utilitario Toyota Yaris 9383SPX 3500.00 6349.11 -2849.11 1
+Utilitario Toyota Yaris 0252DCF 3500.00 6349.11 -2849.11 1
+Utilitario Ford Fiesta 3864WLJ 3500.00 6349.11 -2849.11 1
+Utilitario Ford Fiesta 5398MXK 3500.00 6349.11 -2849.11 1
+Utilitario Ford Fiesta 5341KTC 3500.00 6349.11 -2849.11 1
+Utilitario Dacia Sandero 2159NBV 3500.00 6349.11 -2849.11 1
+Utilitario Dacia Sandero 9392DJX 3500.00 6349.11 -2849.11 1
+Utilitario Dacia Sandero 2621FLK 3500.00 6349.11 -2849.11 1
+Utilitario Dacia Sandero 9428YRF 3500.00 6349.11 -2849.11 1
+Utilitario Dacia Sandero 7968GXN 3500.00 6349.11 -2849.11 1
+Utilitario Dacia Sandero 6456XLM 3500.00 6349.11 -2849.11 1
+Utilitario Dacia Sandero 9485GCM 3500.00 6349.11 -2849.11 1
+Utilitario Dacia Sandero 6370NGC 3500.00 6349.11 -2849.11 1
+Utilitario Dacia Sandero 5960GMY 3500.00 6349.11 -2849.11 1
+Utilitario Renault Clio 9844ZNN 3500.00 6349.11 -2849.11 1
+Utilitario Renault Clio 3699XWM 3500.00 6349.11 -2849.11 1
+Utilitario Renault Clio 0509XDF 3500.00 6349.11 -2849.11 1
+Utilitario Renault Clio 1086NGT 3500.00 6349.11 -2849.11 1
+Utilitario Renault Clio 6678HSD 3500.00 6349.11 -2849.11 1
+Utilitario Renault Clio 3709PDS 3500.00 6349.11 -2849.11 1
+Utilitario Seat Ibiza 9139CMN 3800.00 6349.11 -2549.11 23
+Utilitario Seat Ibiza 7799NMT 3850.00 6349.11 -2499.11 24
+Utilitario Ford Fiesta 1459LGH 3900.00 6349.11 -2449.11 25
+Utilitario Ford Fiesta 6666BPX 3900.00 6349.11 -2449.11 25
+Utilitario Ford Fiesta 7364HHJ 3950.00 6349.11 -2399.11 27
+Utilitario Volkswagen Polo 0614KFL 4000.00 6349.11 -2349.11 28
+Utilitario Renault Clio 0557XZL 4100.00 6349.11 -2249.11 29
+Utilitario Renault Clio 9023SGD 4100.00 6349.11 -2249.11 29
+Utilitario Toyota Yaris 2194DCH 4350.00 6349.11 -1999.11 31
+Utilitario Toyota Yaris 7626DKW 4400.00 6349.11 -1949.11 32
+Utilitario Ford Fiesta 9508MSB 4600.00 6349.11 -1749.11 33
+Utilitario Renault Clio 5967KXY 4800.00 6349.11 -1549.11 34
+Utilitario Ford Fiesta 2157SLL 5500.00 6349.11 -849.11 35
+Utilitario Peugeot 208 0635PTC 5750.00 6349.11 -599.11 36
+Utilitario Seat Ibiza 3318MLB 6250.00 6349.11 -99.11 37
+Utilitario Peugeot 208 8328DJJ 6750.00 6349.11 400.89 38
+Utilitario Peugeot 208 0114MHR 6800.00 6349.11 450.89 39
+Utilitario Peugeot 208 2147BBV 6800.00 6349.11 450.89 39
+Utilitario Volkswagen Polo 5628PNZ 7800.00 6349.11 1450.89 41
+Utilitario Volkswagen Polo 5414CRH 7850.00 6349.11 1500.89 42
+Utilitario Seat Ibiza 6970WZV 8650.00 6349.11 2300.89 43
+Utilitario Ford Fiesta 1567KDT 9050.00 6349.11 2700.89 44
+Utilitario Volkswagen Polo 6252JGT 9150.00 6349.11 2800.89 45
+Utilitario Peugeot 208 6859TCW 9500.00 6349.11 3150.89 46
+Utilitario Peugeot 208 6565KPD 9550.00 6349.11 3200.89 47
+Utilitario Seat Ibiza 7035VGV 10250.00 6349.11 3900.89 48
+Utilitario Seat Ibiza 1583JSG 12150.00 6349.11 5800.89 49
+Utilitario Seat Ibiza 0084NYY 12200.00 6349.11 5850.89 50
+Utilitario Seat Ibiza 2433WJR 12200.00 6349.11 5850.89 50
+Utilitario Peugeot 208 7599JLX 13250.00 6349.11 6900.89 52
+Utilitario Volkswagen Polo 3461LVG 15150.00 6349.11 8800.89 53
+Utilitario Volkswagen Polo 5564PHD 17700.00 6349.11 11350.89 54
+Utilitario Volkswagen Polo 2350XFL 18000.00 6349.11 11650.89 55
+Utilitario Peugeot 208 8011BRV 18500.00 6349.11 12150.89 56
+
+(194 filas afectadas)
+marca modelo coste_esperado
+----- ------ --------------
+Dacia Duster 2456.00
+Dacia Sandero 2340.00
+Ford Focus 4236.00
+Ford Fiesta 3930.00
+Kia Sportage 2460.00
+Kia Stinger 2280.00
+Peugeot 308 SW 5056.00
+Peugeot 3008 4716.00
+Renault Scénic 4170.00
+Seat León 4258.00
+Toyota C-HR 1122.00
+Volkswagen Golf 4808.00
+
+(12 filas afectadas)
+marca modelo matricula precio_venta
+----- ------ --------- ------------
+Renault Clio 3699XWM 3500.00
+Renault Clio 3709PDS 3500.00
+Ford Fiesta 5398MXK 3500.00
+Ford Focus 6854RCH 3500.00
+Ford Focus 2956FSW 3500.00
+Ford Kuga 8278VMN 3500.00
+Ford Kuga 8044TPT 3500.00
+Dacia Sandero 2159NBV 3500.00
+Dacia Sandero 9428YRF 3500.00
+Dacia Sandero 9485GCM 3500.00
+Dacia Sandero 6370NGC 3500.00
+Ford Fiesta 1459LGH 3900.00
+Ford Fiesta 7364HHJ 3950.00
+Ford Kuga 0517ZJC 4150.00
+Ford Kuga 4011XSN 4150.00
+Peugeot 308 SW 5321LJF 4350.00
+Seat León 2010FCG 4900.00
+Ford Kuga 5758KJD 4900.00
+Toyota C-HR 4912JJN 5000.00
+Kia Sportage 5282MDW 5050.00
+Kia Sportage 2857YGK 5100.00
+Ford Focus 6149HGM 5250.00
+Ford Focus 8292KJF 5250.00
+Dacia Duster 2499XBW 5300.00
+Peugeot 3008 7932TFB 5600.00
+Renault Mégane 0557MGL 5800.00
+Seat Ateca 6376NXL 5950.00
+Toyota C-HR 0695VVT 5950.00
+Toyota C-HR 1200NXR 5950.00
+Kia Sportage 4015JXK 6000.00
+Dacia Duster 3211YBB 6200.00
+Dacia Duster 6044LYK 6250.00
+Dacia Duster 3503HLZ 6300.00
+Kia Ceed 2974LDP 6500.00
+Renault Scénic 9455NKL 6600.00
+Peugeot 208 2147BBV 6800.00
+Renault Mégane 5573LDM 6850.00
+Seat Ateca 4958JXG 7050.00
+Dacia Duster 2177VFT 7250.00
+Kia Ceed 7590YLW 7700.00
+Volkswagen Polo 5628PNZ 7800.00
+Peugeot 3008 7334ZHD 7900.00
+Ford Kuga 8433FSH 8000.00
+Seat León 2989BPH 8100.00
+Peugeot 308 SW 4463XGZ 8400.00
+Kia Sportage 7906CDD 8400.00
+Kia Sportage 0955WDT 8400.00
+Kia Sportage 4939FGY 8400.00
+Peugeot 308 SW 1537JWP 8450.00
+Peugeot 308 SW 4262KGV 8500.00
+Seat Ibiza 6970WZV 8650.00
+Toyota Corolla Touring Sports 1813WCT 8700.00
+Renault Scénic 8803DBS 9150.00
+Seat Ateca 8804HWB 9800.00
+Kia Sportage 0300LSN 9800.00
+Kia Stinger 2155KGP 9850.00
+Peugeot 308 SW 2916RYP 9950.00
+Dacia Jogger 3991BYH 10000.00
+Dacia Jogger 5095FTK 10000.00
+Toyota Corolla Touring Sports 5925BSY 10150.00
+Dacia Duster 7206CKK 10200.00
+Seat Ibiza 7035VGV 10250.00
+Dacia Duster 2013MJW 10350.00
+Renault Scénic 2167JZM 10800.00
+Renault Mégane 5420SLR 11350.00
+Toyota C-HR 3274GBD 11700.00
+Dacia Duster 1817CVT 12100.00
+Volkswagen Passat 1590KVH 13800.00
+Toyota C-HR 1136DRH 13900.00
+Dacia Jogger 4390DZV 13900.00
+Dacia Duster 0321XTN 14300.00
+Volkswagen Polo 3461LVG 15150.00
+Peugeot 3008 8031MLT 15300.00
+Peugeot 3008 9412RPT 15450.00
+Dacia Jogger 1693VXN 16300.00
+Volkswagen Passat 3881HXJ 16350.00
+Dacia Jogger 2182VNP 16350.00
+Dacia Jogger 5451JZN 16450.00
+Toyota Corolla Touring Sports 4972LWB 16900.00
+Toyota Corolla Touring Sports 0463VLT 16950.00
+Toyota Corolla Touring Sports 5552SSB 17100.00
+Kia Ceed 0585KHV 17850.00
+Dacia Jogger 9540BGT 19100.00
+Volkswagen Passat 9621FFK 19250.00
+Dacia Jogger 9683NWS 19500.00
+Toyota Corolla Touring Sports 8468WVW 19900.00
+Toyota Corolla Touring Sports 4396XNG 20150.00
+Seat Ateca 9102WKP 22850.00
+Peugeot 3008 4000GSR 25350.00
+Peugeot 3008 2884WGH 25550.00
+Seat Ateca 6107XLG 27000.00
+Toyota Corolla Touring Sports 7061DKL 28000.00
+Peugeot 3008 6143GFG 29850.00
+Peugeot 3008 7057HHC 30000.00
+
+(94 filas afectadas)
+ficha_json
+----------
+{"matricula":"6970WZV","marca":"Seat","modelo":"Ibiza","anio":2022,"km":69300,"precio":8650.00,"extras":["techo panorámico","isofix","enganche de remolque","faros LED","control de crucero","portón eléctrico"],"averias_top":["Embrague de la caja DSG7 con ti
+
+(1 filas afectadas)
+nombre telefono telefono_normalizado validacion
+------ -------- -------------------- ----------
+Alba Fuentes 686-464-289 686464289 Válido
+Andrés Rubio 655363549 655363549 Válido
+Cristina Pascual 792 602 932 792602932 Válido
+Elena Castillo 693-518-635 693518635 Válido
+Hugo Prieto 624363184 624363184 Válido
+Irene Cano 791 465 258 791465258 Válido
+Laura Ortiz 646 186 694 646186694 Válido
+Lucía Ferrer 685 476 677 685476677 Válido
+Pablo Navarro 734488102 734488102 Válido
+Paula Serrano 664-088-621 664088621 Válido
+Rubén Herrero 783851534 783851534 Válido
+Sara Garrido 768-424-915 768424915 Válido
+Adrián Calvo 91 207 33 74 912073374 Revisar
+Beatriz Méndez (+34) 617294256 34617294256 Revisar
+Carmen Vidal (+34) 730304941 34730304941 Revisar
+Diego Romero +34 746 443 329 34746443329 Revisar
+Iván Lozano +34 681 906 377 34681906377 Revisar
+Marcos León +34 729 873 383 34729873383 Revisar
+Nuria Blanco (+34) 621022985 34621022985 Revisar
+Óscar Medina 91 594 89 35 915948935 Revisar
+Raúl Iglesias +34 747 712 746 34747712746 Revisar
+Sergio Molina 91 136 27 03 911362703 Revisar
+Silvia Cabrera (+34) 762022920 34762022920 Revisar
+Tomás Vega 91 785 04 21 917850421 Revisar
+
+(24 filas afectadas)
+marca modelo descripcion
+----- ------ -----------
+Dacia Duster Posición de conducción elevada y buena visibilidad, cómodo para salir de la ciudad los fines de semana. Motor de gasolina suave y silencioso. Un solo propietario y libro de mantenimiento completo.
+Dacia Duster Posición de conducción elevada y buena visibilidad, cómodo para salir de la ciudad los fines de semana. Motor bifuel gasolina y GLP con etiqueta ECO: llenar el depósito cuesta casi la mitad. Un solo propietario y libro de mantenimiento completo.
+Dacia Duster Posición de conducción elevada y buena visibilidad, cómodo para salir de la ciudad los fines de semana. Diésel con mucho par, cómodo en viajes largos. Correa o cadena revisada en el último mantenimiento.
+Dacia Sandero Pensado para la ciudad y los trayectos cortos, con un consumo muy contenido. Motor diésel de bajo consumo, ideal para hacer muchos kilómetros. Pequeños arañazos en el paragolpes, mecánicamente impecable.
+Dacia Sandero Coche pequeño y ágil, cómodo para el día a día y fácil de aparcar en cualquier hueco. Motor de gasolina suave y silencioso. Correa o cadena revisada en el último mantenimiento.
+Dacia Sandero Coche pequeño y ágil, cómodo para el día a día y fácil de aparcar en cualquier hueco. Motor bifuel gasolina y GLP con etiqueta ECO: llenar el depósito cuesta casi la mitad. Un solo propietario y libro de mantenimiento completo.
+Dacia Sandero Coche pequeño y ágil, cómodo para el día a día y fácil de aparcar en cualquier hueco. Motor bifuel gasolina y GLP con etiqueta ECO: llenar el depósito cuesta casi la mitad. Un solo propietario y libro de mantenimiento completo.
+Ford Fiesta Pensado para la ciudad y los trayectos cortos, con un consumo muy contenido. Motor de gasolina suave y silencioso. Neumáticos nuevos y pastillas recién cambiadas.
+Ford Fiesta Pensado para la ciudad y los trayectos cortos, con un consumo muy contenido. Motor diésel de bajo consumo, ideal para hacer muchos kilómetros. Un solo propietario y libro de mantenimiento completo.
+Ford Fiesta Pensado para la ciudad y los trayectos cortos, con un consumo muy contenido. Motor de gasolina suave y silencioso. Garantía de doce meses incluida.
+Ford Fiesta Coche pequeño y ágil, cómodo para el día a día y fácil de aparcar en cualquier hueco. Motor de gasolina con respuesta viva. Neumáticos nuevos y pastillas recién cambiadas.
+Ford Focus Compacto equilibrado, con buen comportamiento tanto en autovía como en calles urbanas. Motor de gasolina con respuesta viva. Neumáticos nuevos y pastillas recién cambiadas.
+Ford Kuga Posición de conducción elevada y buena visibilidad, cómodo para salir de la ciudad los fines de semana. Diésel con mucho par, cómodo en viajes largos. Interior muy cuidado, sin olores ni desgastes.
+Ford Kuga Posición de conducción elevada y buena visibilidad, cómodo para salir de la ciudad los fines de semana. Diésel con mucho par, cómodo en viajes largos. Revisiones al día en servicio oficial.
+Ford Kuga Posición de conducción elevada y buena visibilidad, cómodo para salir de la ciudad los fines de semana. Motor de gasolina suave y silencioso. Interior muy cuidado, sin olores ni desgastes.
+Kia Ceed Compacto equilibrado, con buen comportamiento tanto en autovía como en calles urbanas. Motor de gasolina con respuesta viva. Garantía de doce meses incluida.
+Kia Ceed Compacto equilibrado, con buen comportamiento tanto en autovía como en calles urbanas. Motor de gasolina con respuesta viva. Pintura en buen estado y tapicería sin manchas.
+Kia Ceed Compacto equilibrado, con buen comportamiento tanto en autovía como en calles urbanas. Motor diésel de bajo consumo, ideal para hacer muchos kilómetros. Neumáticos nuevos y pastillas recién cambiadas.
+Kia Ceed Compacto equilibrado, con buen comportamiento tanto en autovía como en calles urbanas. Motor de gasolina con respuesta viva. Correa o cadena revisada en el último mantenimiento.
+Kia Sportage Posición de conducción elevada y buena visibilidad, cómodo para salir de la ciudad los fines de semana. Motor de gasolina suave y silencioso. Neumáticos nuevos y pastillas recién cambiadas.
+Kia Sportage Posición de conducción elevada y buena visibilidad, cómodo para salir de la ciudad los fines de semana. Motor de gasolina suave y silencioso. Revisiones al día en servicio oficial.
+Kia Sportage Posición de conducción elevada y buena visibilidad, cómodo para salir de la ciudad los fines de semana. Diésel con mucho par, cómodo en viajes largos. Garantía de doce meses incluida.
+Peugeot 208 Coche pequeño y ágil, cómodo para el día a día y fácil de aparcar en cualquier hueco. Totalmente eléctrico, con etiqueta CERO y carga en casa. Garantía de doce meses incluida.
+Peugeot 208 Pensado para la ciudad y los trayectos cortos, con un consumo muy contenido. Motor diésel de bajo consumo, ideal para hacer muchos kilómetros. Interior muy cuidado, sin olores ni desgastes.
+Peugeot 208 Coche pequeño y ágil, cómodo para el día a día y fácil de aparcar en cualquier hueco. Motor de gasolina suave y silencioso. Un solo propietario y libro de mantenimiento completo.
+Peugeot 208 Pensado para la ciudad y los trayectos cortos, con un consumo muy contenido. Motor diésel de bajo consumo, ideal para hacer muchos kilómetros. Garantía de doce meses incluida.
+Peugeot 3008 Posición de conducción elevada y buena visibilidad, cómodo para salir de la ciudad los fines de semana. Motor de gasolina con respuesta viva. Correa o cadena revisada en el último mantenimiento.
+Peugeot 3008 Posición de conducción elevada y buena visibilidad, cómodo para salir de la ciudad los fines de semana. Diésel con mucho par, cómodo en viajes largos. Pintura en buen estado y tapicería sin manchas.
+Renault Clio Pensado para la ciudad y los trayectos cortos, con un consumo muy contenido. Versión de GLP con gran autonomía combinando los dos depósitos. Pequeños arañazos en el paragolpes, mecánicamente impecable.
+Renault Clio Pensado para la ciudad y los trayectos cortos, con un consumo muy contenido. Motor de gasolina suave y silencioso. Correa o cadena revisada en el último mantenimiento.
+Renault Clio Pensado para la ciudad y los trayectos cortos, con un consumo muy contenido. Motor diésel de bajo consumo, ideal para hacer muchos kilómetros. Revisiones al día en servicio oficial.
+Renault Mégane Compacto equilibrado, con buen comportamiento tanto en autovía como en calles urbanas. Diésel con mucho par, cómodo en viajes largos. Revisiones al día en servicio oficial.
+Renault Mégane Compacto equilibrado, con buen comportamiento tanto en autovía como en calles urbanas. Diésel con mucho par, cómodo en viajes largos. Interior muy cuidado, sin olores ni desgastes.
+Renault Mégane Compacto equilibrado, con buen comportamiento tanto en autovía como en calles urbanas. Motor de gasolina con respuesta viva. Pequeños arañazos en el paragolpes, mecánicamente impecable.
+Renault Mégane Compacto equilibrado, con buen comportamiento tanto en autovía como en calles urbanas. Motor de gasolina con respuesta viva. Garantía de doce meses incluida.
+Seat Ateca Posición de conducción elevada y buena visibilidad, cómodo para salir de la ciudad los fines de semana. Motor de gasolina con respuesta viva. Garantía de doce meses incluida.
+Seat Ateca Posición de conducción elevada y buena visibilidad, cómodo para salir de la ciudad los fines de semana. Motor diésel de bajo consumo, ideal para hacer muchos kilómetros. Un solo propietario y libro de mantenimiento completo.
+Seat Ateca Posición de conducción elevada y buena visibilidad, cómodo para salir de la ciudad los fines de semana. Motor de gasolina con respuesta viva. Correa o cadena revisada en el último mantenimiento.
+Seat Ateca Posición de conducción elevada y buena visibilidad, cómodo para salir de la ciudad los fines de semana. Diésel con mucho par, cómodo en viajes largos. Un solo propietario y libro de mantenimiento completo.
+Seat Ibiza Coche pequeño y ágil, cómodo para el día a día y fácil de aparcar en cualquier hueco. Diésel con mucho par, cómodo en viajes largos. Pintura en buen estado y tapicería sin manchas.
+Seat Ibiza Pensado para la ciudad y los trayectos cortos, con un consumo muy contenido. Diésel con mucho par, cómodo en viajes largos. Correa o cadena revisada en el último mantenimiento.
+Seat Ibiza Coche pequeño y ágil, cómodo para el día a día y fácil de aparcar en cualquier hueco. Diésel con mucho par, cómodo en viajes largos. Pintura en buen estado y tapicería sin manchas.
+Seat Ibiza Coche pequeño y ágil, cómodo para el día a día y fácil de aparcar en cualquier hueco. Motor de gasolina con respuesta viva. Garantía de doce meses incluida.
+Seat León Compacto equilibrado, con buen comportamiento tanto en autovía como en calles urbanas. Motor de gasolina con respuesta viva. Garantía de doce meses incluida.
+Seat León Compacto equilibrado, con buen comportamiento tanto en autovía como en calles urbanas. Motor de gasolina suave y silencioso. Neumáticos nuevos y pastillas recién cambiadas.
+Toyota Yaris Pensado para la ciudad y los trayectos cortos, con un consumo muy contenido. Tecnología híbrida que reduce el gasto en combustible. Pintura en buen estado y tapicería sin manchas.
+Toyota Yaris Pensado para la ciudad y los trayectos cortos, con un consumo muy contenido. Tecnología híbrida que reduce el gasto en combustible. Neumáticos nuevos y pastillas recién cambiadas.
+Toyota Yaris Coche pequeño y ágil, cómodo para el día a día y fácil de aparcar en cualquier hueco. Híbrido con etiqueta ECO: consumo muy bajo en atascos y acceso a zonas de bajas emisiones. Garantía de doce meses incluida.
+Toyota Yaris Coche pequeño y ágil, cómodo para el día a día y fácil de aparcar en cualquier hueco. Híbrido con etiqueta ECO: consumo muy bajo en atascos y acceso a zonas de bajas emisiones. Un solo propietario y libro de mantenimiento completo.
+Toyota Yaris Coche pequeño y ágil, cómodo para el día a día y fácil de aparcar en cualquier hueco. Motor de gasolina con respuesta viva. Correa o cadena revisada en el último mantenimiento.
+Volkswagen Golf Compacto equilibrado, con buen comportamiento tanto en autovía como en calles urbanas. Diésel con mucho par, cómodo en viajes largos. Pintura en buen estado y tapicería sin manchas.
+Volkswagen Golf Compacto equilibrado, con buen comportamiento tanto en autovía como en calles urbanas. Diésel con mucho par, cómodo en viajes largos. Neumáticos nuevos y pastillas recién cambiadas.
+Volkswagen Polo Pensado para la ciudad y los trayectos cortos, con un consumo muy contenido. Motor de gasolina con respuesta viva. Interior muy cuidado, sin olores ni desgastes.
+Volkswagen Polo Coche pequeño y ágil, cómodo para el día a día y fácil de aparcar en cualquier hueco. Motor diésel de bajo consumo, ideal para hacer muchos kilómetros. Garantía de doce meses incluida.
+Volkswagen Polo Pensado para la ciudad y los trayectos cortos, con un consumo muy contenido. Motor de gasolina suave y silencioso. Pintura en buen estado y tapicería sin manchas.
+Volkswagen Polo Pensado para la ciudad y los trayectos cortos, con un consumo muy contenido. Motor de gasolina con respuesta viva. Pintura en buen estado y tapicería sin manchas.
+
+(56 filas afectadas)
+--- OK database\08_advanced_queries.sql (3.8 s)
+=== tests\tests.sql
+Se cambió el contexto de la base de datos a 'BajoElCapoDB'.
+OK A: las 9 tablas existen y no hay objetos en dbo
+esquema tablas
+------- ------
+catalogo 3
+taller 2
+ventas 4
+OK B: tablas por esquema correctas
+tabla esperado real
+----- -------- ----
+catalogo.Marcas 8 8
+catalogo.Modelos 24 24
+catalogo.Vehiculos 228 228
+taller.Averias 57 57
+taller.ModeloAveria 207 207
+ventas.Comerciales 4 4
+ventas.Clientes 24 24
+ventas.Reservas 44 44
+ventas.Ventas 16 16
+OK C: los 9 recuentos coinciden con 03_insert_data.sql
+estado coches
+------ ------
+Disponible 194
+Reservado 18
+Vendido 16
+OK D: coches, reservas y ventas coherentes
+OK E: vistas y funciones devuelven filas; el Dacia Jogger no tiene averías
+OK F2: doble reserva rechazada con el error 50102
+OK F: reserva, doble reserva, venta y limpieza correctas
+TESTS: todos los bloques han pasado.
+--- OK tests\tests.sql (0.5 s)
+RESULTADO: todos los scripts y tests terminaron sin errores.
