@@ -230,5 +230,15 @@ IF ISNULL(@error, 0) <> 229
 PRINT N'OK G: roles, RLS, DDM y permisos denegados correctos';
 GO
 
+-- H: optimización · el índice de la mejora existe y la carga de 07 se ha borrado
+IF NOT EXISTS (SELECT 1 FROM sys.indexes
+               WHERE object_id = OBJECT_ID(N'catalogo.Vehiculos') AND name = N'ix_vehiculos_estado_precio')
+    THROW 50050, N'H: no existe el índice ix_vehiculos_estado_precio.', 1;
+IF EXISTS (SELECT 1 FROM catalogo.Vehiculos WHERE descripcion LIKE N'[[]CARGA]%')
+OR (SELECT COUNT(*) FROM catalogo.Vehiculos) <> 228
+    THROW 50051, N'H: quedan datos de la carga de 07 (se esperaban 228 coches).', 1;
+PRINT N'OK H: índice de optimización creado y 228 coches tras borrar la carga';
+GO
+
 PRINT N'TESTS: todos los bloques han pasado.';
 GO

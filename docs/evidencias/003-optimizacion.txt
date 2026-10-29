@@ -1,0 +1,62 @@
+﻿# Evidencia 003 · Mensajes reales de database/07_indexes.sql (STATISTICS IO y TIME)
+
+Se cambió el contexto de la base de datos a 'BajoElCapoDB'.
+C1: ANTES, primera ejecución
+
+ Tiempos de ejecución de SQL Server:
+   Tiempo de CPU = 0 ms, tiempo transcurrido = 0 ms.
+Tiempo de análisis y compilación de SQL Server: 
+   Tiempo de CPU = 6 ms, tiempo transcurrido = 6 ms.
+Tabla "Workfile". Número de examen 0, lecturas lógicas 0, lecturas físicas 0, lecturas de servidor de páginas 0, lecturas anticipadas 0, lecturas anticipadas de servidor de páginas 0, lecturas lógicas de línea de negocio 0, lecturas físicas de línea de negocio 0, lecturas de servidor de páginas de línea de negocio 0, lecturas anticipadas de línea de negocio 0, lecturas anticipadas de servidor de páginas de línea de negocio 0.
+Tabla "Worktable". Número de examen 0, lecturas lógicas 0, lecturas físicas 0, lecturas de servidor de páginas 0, lecturas anticipadas 0, lecturas anticipadas de servidor de páginas 0, lecturas lógicas de línea de negocio 0, lecturas físicas de línea de negocio 0, lecturas de servidor de páginas de línea de negocio 0, lecturas anticipadas de línea de negocio 0, lecturas anticipadas de servidor de páginas de línea de negocio 0.
+Tabla "Vehiculos". Número de examen 1, lecturas lógicas 2974, lecturas físicas 0, lecturas de servidor de páginas 0, lecturas anticipadas 0, lecturas anticipadas de servidor de páginas 0, lecturas lógicas de línea de negocio 0, lecturas físicas de línea de negocio 0, lecturas de servidor de páginas de línea de negocio 0, lecturas anticipadas de línea de negocio 0, lecturas anticipadas de servidor de páginas de línea de negocio 0.
+Tabla "Marcas". Número de examen 0, lecturas lógicas 12, lecturas físicas 0, lecturas de servidor de páginas 0, lecturas anticipadas 0, lecturas anticipadas de servidor de páginas 0, lecturas lógicas de línea de negocio 0, lecturas físicas de línea de negocio 0, lecturas de servidor de páginas de línea de negocio 0, lecturas anticipadas de línea de negocio 0, lecturas anticipadas de servidor de páginas de línea de negocio 0.
+Tabla "Modelos". Número de examen 1, lecturas lógicas 2, lecturas físicas 0, lecturas de servidor de páginas 0, lecturas anticipadas 0, lecturas anticipadas de servidor de páginas 0, lecturas lógicas de línea de negocio 0, lecturas físicas de línea de negocio 0, lecturas de servidor de páginas de línea de negocio 0, lecturas anticipadas de línea de negocio 0, lecturas anticipadas de servidor de páginas de línea de negocio 0.
+
+ Tiempos de ejecución de SQL Server:
+   Tiempo de CPU = 0 ms, tiempo transcurrido = 15 ms.
+C2: ANTES, segunda ejecución (la que se compara)
+
+ Tiempos de ejecución de SQL Server:
+   Tiempo de CPU = 0 ms, tiempo transcurrido = 0 ms.
+Tiempo de análisis y compilación de SQL Server: 
+   Tiempo de CPU = 0 ms, tiempo transcurrido = 6 ms.
+Tabla "Workfile". Número de examen 0, lecturas lógicas 0, lecturas físicas 0, lecturas de servidor de páginas 0, lecturas anticipadas 0, lecturas anticipadas de servidor de páginas 0, lecturas lógicas de línea de negocio 0, lecturas físicas de línea de negocio 0, lecturas de servidor de páginas de línea de negocio 0, lecturas anticipadas de línea de negocio 0, lecturas anticipadas de servidor de páginas de línea de negocio 0.
+Tabla "Worktable". Número de examen 0, lecturas lógicas 0, lecturas físicas 0, lecturas de servidor de páginas 0, lecturas anticipadas 0, lecturas anticipadas de servidor de páginas 0, lecturas lógicas de línea de negocio 0, lecturas físicas de línea de negocio 0, lecturas de servidor de páginas de línea de negocio 0, lecturas anticipadas de línea de negocio 0, lecturas anticipadas de servidor de páginas de línea de negocio 0.
+Tabla "Vehiculos". Número de examen 1, lecturas lógicas 2974, lecturas físicas 0, lecturas de servidor de páginas 0, lecturas anticipadas 0, lecturas anticipadas de servidor de páginas 0, lecturas lógicas de línea de negocio 0, lecturas físicas de línea de negocio 0, lecturas de servidor de páginas de línea de negocio 0, lecturas anticipadas de línea de negocio 0, lecturas anticipadas de servidor de páginas de línea de negocio 0.
+Tabla "Marcas". Número de examen 0, lecturas lógicas 12, lecturas físicas 0, lecturas de servidor de páginas 0, lecturas anticipadas 0, lecturas anticipadas de servidor de páginas 0, lecturas lógicas de línea de negocio 0, lecturas físicas de línea de negocio 0, lecturas de servidor de páginas de línea de negocio 0, lecturas anticipadas de línea de negocio 0, lecturas anticipadas de servidor de páginas de línea de negocio 0.
+Tabla "Modelos". Número de examen 1, lecturas lógicas 2, lecturas físicas 0, lecturas de servidor de páginas 0, lecturas anticipadas 0, lecturas anticipadas de servidor de páginas 0, lecturas lógicas de línea de negocio 0, lecturas físicas de línea de negocio 0, lecturas de servidor de páginas de línea de negocio 0, lecturas anticipadas de línea de negocio 0, lecturas anticipadas de servidor de páginas de línea de negocio 0.
+
+ Tiempos de ejecución de SQL Server:
+   Tiempo de CPU = 16 ms, tiempo transcurrido = 11 ms.
+E1: DESPUÉS, primera ejecución
+
+ Tiempos de ejecución de SQL Server:
+   Tiempo de CPU = 0 ms, tiempo transcurrido = 0 ms.
+Tiempo de análisis y compilación de SQL Server: 
+   Tiempo de CPU = 4 ms, tiempo transcurrido = 4 ms.
+Tabla "Marcas". Número de examen 0, lecturas lógicas 100, lecturas físicas 0, lecturas de servidor de páginas 0, lecturas anticipadas 0, lecturas anticipadas de servidor de páginas 0, lecturas lógicas de línea de negocio 0, lecturas físicas de línea de negocio 0, lecturas de servidor de páginas de línea de negocio 0, lecturas anticipadas de línea de negocio 0, lecturas anticipadas de servidor de páginas de línea de negocio 0.
+Tabla "Modelos". Número de examen 0, lecturas lógicas 418, lecturas físicas 0, lecturas de servidor de páginas 0, lecturas anticipadas 0, lecturas anticipadas de servidor de páginas 0, lecturas lógicas de línea de negocio 0, lecturas físicas de línea de negocio 0, lecturas de servidor de páginas de línea de negocio 0, lecturas anticipadas de línea de negocio 0, lecturas anticipadas de servidor de páginas de línea de negocio 0.
+Tabla "Vehiculos". Número de examen 1, lecturas lógicas 5, lecturas físicas 0, lecturas de servidor de páginas 0, lecturas anticipadas 0, lecturas anticipadas de servidor de páginas 0, lecturas lógicas de línea de negocio 0, lecturas físicas de línea de negocio 0, lecturas de servidor de páginas de línea de negocio 0, lecturas anticipadas de línea de negocio 0, lecturas anticipadas de servidor de páginas de línea de negocio 0.
+
+ Tiempos de ejecución de SQL Server:
+   Tiempo de CPU = 0 ms, tiempo transcurrido = 1 ms.
+E2: DESPUÉS, segunda ejecución (la que se compara)
+
+ Tiempos de ejecución de SQL Server:
+   Tiempo de CPU = 0 ms, tiempo transcurrido = 0 ms.
+Tiempo de análisis y compilación de SQL Server: 
+   Tiempo de CPU = 0 ms, tiempo transcurrido = 3 ms.
+Tabla "Marcas". Número de examen 0, lecturas lógicas 100, lecturas físicas 0, lecturas de servidor de páginas 0, lecturas anticipadas 0, lecturas anticipadas de servidor de páginas 0, lecturas lógicas de línea de negocio 0, lecturas físicas de línea de negocio 0, lecturas de servidor de páginas de línea de negocio 0, lecturas anticipadas de línea de negocio 0, lecturas anticipadas de servidor de páginas de línea de negocio 0.
+Tabla "Modelos". Número de examen 0, lecturas lógicas 418, lecturas físicas 0, lecturas de servidor de páginas 0, lecturas anticipadas 0, lecturas anticipadas de servidor de páginas 0, lecturas lógicas de línea de negocio 0, lecturas físicas de línea de negocio 0, lecturas de servidor de páginas de línea de negocio 0, lecturas anticipadas de línea de negocio 0, lecturas anticipadas de servidor de páginas de línea de negocio 0.
+Tabla "Vehiculos". Número de examen 1, lecturas lógicas 5, lecturas físicas 0, lecturas de servidor de páginas 0, lecturas anticipadas 0, lecturas anticipadas de servidor de páginas 0, lecturas lógicas de línea de negocio 0, lecturas físicas de línea de negocio 0, lecturas de servidor de páginas de línea de negocio 0, lecturas anticipadas de línea de negocio 0, lecturas anticipadas de servidor de páginas de línea de negocio 0.
+
+ Tiempos de ejecución de SQL Server:
+   Tiempo de CPU = 0 ms, tiempo transcurrido = 1 ms.
+Optimización terminada: índice ix_vehiculos_estado_precio creado y carga borrada.
+
+## Resumen de los planes reales (segunda ejecución)
+ANTES · coste estimado del plan (StatementSubTreeCost): 2.41887
+ANTES · acceso a Vehiculos: Clustered Index Scan sobre [pk_vehiculos] · filas leídas: 50228 · coste del operador: 2.25113
+DESPUÉS · coste estimado del plan (StatementSubTreeCost): 0.0518114
+DESPUÉS · acceso a Vehiculos: Index Seek sobre [ix_vehiculos_estado_precio] · filas leídas: 209 · coste del operador: 0.0045817
