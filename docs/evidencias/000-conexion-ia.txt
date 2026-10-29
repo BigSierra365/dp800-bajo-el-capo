@@ -1,0 +1,18 @@
+﻿Se cambió el contexto de la base de datos a 'BajoElCapoDB'.
+Se ha cambiado la opción de configuración 'external rest endpoint enabled' de 1 a 1. Ejecute la instrucción RECONFIGURE para instalar.
+rc_http dimensiones
+------- -----------
+0 1024
+
+(1 filas afectadas)
+dimensiones
+-----------
+1024
+
+(1 filas afectadas)
+rc_http respuesta_del_modelo
+------- --------------------
+0 funciona
+
+(1 filas afectadas)
+Conexión SQL Server -> Caddy -> Ollama verificada.
