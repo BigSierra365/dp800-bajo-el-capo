@@ -1,16 +1,17 @@
-# Estado del proyecto
+﻿# Estado del proyecto
 
 | Campo | Valor |
 | --- | --- |
-| Feature actual | 001 · base de datos (cerrada) |
-| Último paso completado | `run_all.ps1` en verde; evidencias 000 y 001 guardadas |
-| Siguiente paso | Feature 002 · seguridad (rama `002-seguridad` desde `001-base-datos`) |
+| Feature actual | 002 · seguridad (cerrada) |
+| Último paso completado | `06_security.sql`, demo y bloque G en verde; evidencia 002 guardada |
+| Siguiente paso | Feature 003 · optimización (rama `003-optimizacion` desde `002-seguridad`) |
 | Bloqueos | Ninguno. Ollama y Caddy responden. |
 
 ## Historial
 
 - 2026-10-29 · Spec Kit 1.2.6 inicializado (Claude, PowerShell, extensión git). Constitución v1.0.0.
 - 2026-10-29 · 001 cerrada: tests A–F en verde con `run_all.ps1`.
+- 2026-10-29 · 002 cerrada: RLS, DDM y GRANT/DENY; bloque G en verde.
 
 ## Capturas pendientes del alumno
 
