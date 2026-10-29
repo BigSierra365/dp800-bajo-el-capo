@@ -189,5 +189,46 @@ IF (SELECT COUNT(*) FROM ventas.Reservas) <> 44 OR (SELECT COUNT(*) FROM ventas.
 PRINT N'OK F: reserva, doble reserva, venta y limpieza correctas';
 GO
 
+-- G: seguridad · roles, política RLS activa, columnas enmascaradas y efecto real por usuario
+IF (SELECT COUNT(*) FROM sys.database_principals WHERE type = 'R'
+    AND name IN (N'rol_admin', N'rol_comercial', N'rol_mecanico', N'rol_ia_servicio')) <> 4
+    THROW 50040, N'G: faltan roles de seguridad.', 1;
+IF (SELECT COUNT(*) FROM sys.database_principals WHERE type = 'S' AND authentication_type = 0
+    AND name IN (N'admin_demo', N'comercial_ana', N'comercial_luis', N'comercial_marta',
+                 N'comercial_javier', N'mecanico_demo', N'ia_servicio')) <> 7
+    THROW 50041, N'G: faltan usuarios de demostración sin inicio de sesión.', 1;
+IF NOT EXISTS (SELECT 1 FROM sys.security_policies WHERE name = N'politica_comerciales' AND is_enabled = 1)
+    THROW 50042, N'G: la política de RLS no existe o está desactivada.', 1;
+IF (SELECT COUNT(*) FROM sys.masked_columns
+    WHERE object_id = OBJECT_ID(N'ventas.Clientes') AND is_masked = 1 AND name IN (N'email', N'telefono')) <> 2
+    THROW 50043, N'G: email y teléfono deben estar enmascarados.', 1;
+
+-- G2: dos comerciales ven un número distinto de reservas y la suma de los cuatro es el total
+DECLARE @ana INT, @luis INT, @marta INT, @javier INT, @email NVARCHAR(120);
+EXECUTE AS USER = N'comercial_ana';    SELECT @ana    = COUNT(*) FROM ventas.vw_reservas;
+    SELECT TOP (1) @email = email FROM ventas.Clientes ORDER BY cliente_id;   REVERT;
+EXECUTE AS USER = N'comercial_luis';   SELECT @luis   = COUNT(*) FROM ventas.vw_reservas; REVERT;
+EXECUTE AS USER = N'comercial_marta';  SELECT @marta  = COUNT(*) FROM ventas.vw_reservas; REVERT;
+EXECUTE AS USER = N'comercial_javier'; SELECT @javier = COUNT(*) FROM ventas.vw_reservas; REVERT;
+IF @ana = @luis OR @ana + @luis + @marta + @javier <> (SELECT COUNT(*) FROM ventas.Reservas)
+    THROW 50044, N'G2: RLS no reparte las reservas entre comerciales.', 1;
+IF @email NOT LIKE N'_XXX@XXXX%'
+    THROW 50045, N'G2: el comercial ve el email sin máscara.', 1;
+
+-- G3: el mecánico recibe un permiso denegado (229) al consultar clientes
+DECLARE @error INT = NULL;
+EXECUTE AS USER = N'mecanico_demo';
+BEGIN TRY
+    DECLARE @n INT = (SELECT COUNT(*) FROM ventas.Clientes);
+END TRY
+BEGIN CATCH
+    SET @error = ERROR_NUMBER();
+END CATCH
+REVERT;
+IF ISNULL(@error, 0) <> 229
+    THROW 50046, N'G3: el mecánico no recibió un permiso denegado sobre clientes.', 1;
+PRINT N'OK G: roles, RLS, DDM y permisos denegados correctos';
+GO
+
 PRINT N'TESTS: todos los bloques han pasado.';
 GO

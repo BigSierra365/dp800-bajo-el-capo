@@ -61,3 +61,26 @@ lo que generó la IA, lo que se aceptó, lo que se corrigió y cómo se verific�
 - **Cómo se verificó**: `.\run_all.ps1` desde cero termina con «RESULTADO: todos los scripts y
   tests terminaron sin errores»; `06` y `07` aparecen como «vacío, se omite»; `grep` del nombre del
   equipo en `docs/evidencias/` sin resultados.
+
+---
+
+## Caso 4 · Seguridad (`database/06_security.sql` y `tests/demo_seguridad.sql`)
+
+- **Herramienta**: Claude Code (implement de la feature 002).
+- **Entrada**: bloque «Entrada para plan» de `docs/prompts/002-seguridad.md` (script idempotente,
+  4 roles, usuarios WITHOUT LOGIN, RLS con FILTER y BLOCK, DDM, demo con EXECUTE AS).
+- **Qué generó**: el script de seguridad, la demo y el bloque G de tests.
+- **Qué se aceptó**: roles, permisos, función de predicado, política, máscaras y bloque G.
+- **Qué se corrigió**:
+  1. La limpieza de máscaras fallaba con el error 16007 («la columna no tiene una función de
+     máscara») aunque estuviera dentro de un `IF`: `sys.masked_columns` lista todas las columnas
+     (hay que filtrar `is_masked = 1`) y, además, `ALTER COLUMN ... DROP MASKED` se valida al
+     compilar el lote. Se cambió a SQL dinámico generado desde `sys.masked_columns`.
+  2. En la demo, el intento de reserva rechazado estaba dentro de la transacción de la demo; el
+     `CATCH` de `sp_registrar_reserva` hace `ROLLBACK` y deshizo también la transacción externa,
+     así que la reserva válida posterior se **comitió** de verdad. Se borró esa reserva y se movió
+     el intento rechazado fuera de la transacción.
+- **Cómo se verificó**: `06` ejecutado dos veces seguidas con código 0; demo con filas distintas por
+  comercial (7/8/15/14), email y teléfono enmascarados, errores 229 para mecánico, comercial e IA, y
+  el error 50103 al reservar para un cliente ajeno; tras la demo siguen existiendo 44 reservas;
+  bloque G de `tests/tests.sql` en verde. Evidencia: `docs/evidencias/002-seguridad.txt`.

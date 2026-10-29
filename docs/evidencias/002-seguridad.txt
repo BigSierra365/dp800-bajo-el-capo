@@ -1,0 +1,92 @@
+﻿# Evidencia 002 · Seguridad (salida real de sqlcmd)
+
+## 1. database/06_security.sql ejecutado dos veces seguidas (idempotente)
+### Ejecución 1
+Se cambió el contexto de la base de datos a 'BajoElCapoDB'.
+rol miembros
+--- --------
+rol_admin admin_demo
+rol_comercial comercial_ana, comercial_luis, comercial_marta, comercial_javier
+rol_ia_servicio ia_servicio
+rol_mecanico mecanico_demo
+Seguridad configurada: 4 roles, 7 usuarios sin login, RLS y DDM.
+código de salida: 0
+### Ejecución 2
+Se cambió el contexto de la base de datos a 'BajoElCapoDB'.
+rol miembros
+--- --------
+rol_admin admin_demo
+rol_comercial comercial_ana, comercial_luis, comercial_marta, comercial_javier
+rol_ia_servicio ia_servicio
+rol_mecanico mecanico_demo
+Seguridad configurada: 4 roles, 7 usuarios sin login, RLS y DDM.
+código de salida: 0
+
+## 2. tests/demo_seguridad.sql
+Se cambió el contexto de la base de datos a 'BajoElCapoDB'.
+--- A: RLS · misma consulta con distintos usuarios ---
+usuario reservas_visibles clientes_visibles
+------- ----------------- -----------------
+admin_demo 44 24
+comercial_ana 7 6
+comercial_luis 8 6
+comercial_marta 15 6
+comercial_javier 14 6
+--- B: reservas que ve comercial_ana ---
+usuario reserva_id estado marca modelo cliente comercial
+------- ---------- ------ ----- ------ ------- ---------
+comercial_ana 11 Activa Ford Kuga Carmen Vidal Ana Martín Delgado
+comercial_ana 12 Vendida Renault Clio Carmen Vidal Ana Martín Delgado
+comercial_ana 15 Vendida Kia Ceed Paula Serrano Ana Martín Delgado
+comercial_ana 23 Activa Toyota Yaris Irene Cano Ana Martín Delgado
+comercial_ana 25 Vendida Volkswagen Golf Beatriz Méndez Ana Martín Delgado
+comercial_ana 39 Activa Peugeot 308 SW Beatriz Méndez Ana Martín Delgado
+comercial_ana 43 Cancelada Peugeot 3008 Irene Cano Ana Martín Delgado
+--- C: DDM · administrador (sin máscara) frente a comercial (enmascarado) ---
+usuario nombre email telefono
+------- ------ ----- --------
+admin_demo Lucía Ferrer lucia.ferrer@example.com 685 476 677
+admin_demo Carmen Vidal carmen.vidal@example.org (+34) 730304941
+admin_demo Paula Serrano paula.serrano@example.net 664-088-621
+usuario nombre email telefono
+------- ------ ----- --------
+comercial_ana Lucía Ferrer lXXX@XXXX.com XXX-XXX-677
+comercial_ana Carmen Vidal cXXX@XXXX.com XXX-XXX-941
+comercial_ana Paula Serrano pXXX@XXXX.com XXX-XXX-621
+--- D: mecánico · averías sí, clientes y reservas no ---
+usuario marca modelo titulo riesgo
+------- ----- ------ ------ ------
+mecanico_demo Peugeot 208 Correa de distribución en baño de aceite degradada (1.2 PureTech) 20
+mecanico_demo Peugeot 3008 Correa de distribución en baño de aceite degradada (1.2 PureTech) 20
+mecanico_demo Peugeot 308 SW Correa de distribución en baño de aceite degradada (1.2 PureTech) 20
+mecanico_demo -> ventas.Clientes: DENEGADO (error 229): Se denegó el permiso SELECT en el objeto 'Clientes', base de datos 'BajoElCapoDB', esquema 'ventas'.
+mecanico_demo -> ventas.vw_reservas: DENEGADO (error 229): Se denegó el permiso SELECT en el objeto 'vw_reservas', base de datos 'BajoElCapoDB', esquema 'ventas'.
+--- E: comercial · precio de compra no accesible ---
+comercial_ana -> catalogo.Vehiculos.precio_compra: DENEGADO (error 229): Se denegó el permiso SELECT en el objeto 'Vehiculos', base de datos 'BajoElCapoDB', esquema 'catalogo'.
+usuario marca modelo precio_venta
+------- ----- ------ ------------
+comercial_ana Seat León 3500.00
+comercial_ana Seat León 3500.00
+comercial_ana Volkswagen Golf 3500.00
+--- F: servicio de IA · sin acceso a clientes ---
+ia_servicio -> ventas.Clientes: DENEGADO (error 229): Se denegó el permiso SELECT en el objeto 'Clientes', base de datos 'BajoElCapoDB', esquema 'ventas'.
+--- G: reserva con RLS activo (se deshace al final) ---
+comercial_ana -> reserva para cliente de comercial_luis: RECHAZADA (error 50103): El cliente no existe.
+usuario reserva_id estado marca modelo cliente
+------- ---------- ------ ----- ------ -------
+comercial_ana 47 Activa Seat Ibiza Lucía Ferrer
+Reserva de demostración deshecha (ROLLBACK).
+Demostración de seguridad terminada.
+código de salida: 0
+
+## 3. tests/tests.sql (incluye el bloque G de seguridad)
+OK A: las 9 tablas existen y no hay objetos en dbo
+OK B: tablas por esquema correctas
+OK C: los 9 recuentos coinciden con 03_insert_data.sql
+OK D: coches, reservas y ventas coherentes
+OK E: vistas y funciones devuelven filas; el Dacia Jogger no tiene averías
+OK F2: doble reserva rechazada con el error 50102
+OK F: reserva, doble reserva, venta y limpieza correctas
+OK G: roles, RLS, DDM y permisos denegados correctos
+TESTS: todos los bloques han pasado.
+código de salida: 0
