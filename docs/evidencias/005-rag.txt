@@ -1,0 +1,249 @@
+﻿# Evidencia 005 · RAG: asesor de averías (salidas reales)
+
+Vía SSMS: EXEC ia.sp_asesor_averias (embedding, recuperación y chat dentro de SQL Server, vía Caddy).
+Vía terminal: .\ai\asesor_averias.ps1 (embedding y chat con Ollama directamente; recuperación y contexto con ia.sp_contexto_averias_vector).
+Modelo de chat: qwen2.5:3b, temperatura 0. Texto completo leído con PowerShell (sqlcmd corta las columnas largas).
+
+==================================================================
+PREGUNTA 1 · modelo con averías
+==================================================================
+--- Vía SSMS: EXEC ia.sp_asesor_averias @pregunta = N'¿Qué averías suele tener y cuánto cuesta repararlas?', @modelo = N'Peugeot 308 SW';
+Conjuntos de resultados devueltos: 4 (pregunta, documentos, contexto, respuesta)
+[1. Pregunta]
+¿Qué averías suele tener y cuánto cuesta repararlas? | modelo: Peugeot 308 SW
+[2. Documentos recuperados]
+avería 1 · distancia 0.5599 · Avería: Amortiguadores traseros gastados. Síntoma: El coche rebota en las curvas y se oye ruido en la parte trasera. Solución: Sustituir los amortiguadores traseros por parejas. Coste estimado: 380 €. Frecuencia 2/5, gravedad 2/5, riesgo 4/25.
+avería 2 · distancia 0.5804 · Avería: Depósito de AdBlue averiado. Síntoma: Aviso de que el motor no arrancará en un número de kilómetros. Solución: Sustituir el conjunto del depósito o la bomba de AdBlue. Coste estimado: 900 €. Frecuencia 3/5, gravedad 4/5, riesgo 12/25.
+avería 3 · distancia 0.5848 · Avería: Consumo excesivo de aceite (1.2 PureTech). Síntoma: El nivel de aceite baja mucho entre revisiones y aparece humo azulado. Solución: Descarbonizar o sustituir los segmentos; en casos graves, reparar el motor. Coste estimado: 2500 €. Frecuencia 3/5, gravedad 4/5, riesgo 12/25.
+avería 4 · distancia 0.5890 · Avería: Volante bimasa desgastado. Síntoma: Vibraciones al ralentí y golpeteo al arrancar o apagar el motor. Solución: Sustituir el kit de embrague y el volante bimasa. Coste estimado: 1200 €. Frecuencia 3/5, gravedad 4/5, riesgo 12/25.
+avería 5 · distancia 0.5988 · Avería: Correa de distribución en baño de aceite degradada (1.2 PureTech). Síntoma: Testigo de presión de aceite, pérdida de potencia y ruido del motor. Solución: Sustituir correa, tensor y bomba de vacío, limpiar el cárter y cambiar el aceite. Coste estimado: 1800 €. Frecuencia 4/5, gravedad 5/5, riesgo 20/25.
+coche 1 · distancia 0.6420 · Coche disponible: Peugeot 308 SW de 2020, 89100 km, Diésel, 8500 €.
+coche 2 · distancia 0.6513 · Coche disponible: Peugeot 308 SW de 2015, 174900 km, Diésel, 3600 €.
+coche 3 · distancia 0.6592 · Coche disponible: Peugeot 308 SW de 2021, 80900 km, Diésel, 9950 €.
+[3. Contexto enviado al modelo]
+(sistema) Eres el asesor de averías del concesionario Bajo el Capó. Responde solo con el contexto proporcionado. Si no hay datos suficientes, dilo. Cita únicamente averías y costes que aparezcan en el contexto; no inventes averías, causas ni precios. Si la sección de averías dice (ninguna), responde que no hay averías registradas para ese modelo. Responde en español, en un máximo de cinco frases.
+(usuario) Contexto:
+AVERÍAS REGISTRADAS EN BAJO EL CAPÓ PARA Peugeot 308 SW:
+- Avería: Amortiguadores traseros gastados. Síntoma: El coche rebota en las curvas y se oye ruido en la parte trasera. Solución: Sustituir los amortiguadores traseros por parejas. Coste estimado: 380 €. Frecuencia 2/5, gravedad 2/5, riesgo 4/25.
+- Avería: Depósito de AdBlue averiado. Síntoma: Aviso de que el motor no arrancará en un número de kilómetros. Solución: Sustituir el conjunto del depósito o la bomba de AdBlue. Coste estimado: 900 €. Frecuencia 3/5, gravedad 4/5, riesgo 12/25.
+- Avería: Consumo excesivo de aceite (1.2 PureTech). Síntoma: El nivel de aceite baja mucho entre revisiones y aparece humo azulado. Solución: Descarbonizar o sustituir los segmentos; en casos graves, reparar el motor. Coste estimado: 2500 €. Frecuencia 3/5, gravedad 4/5, riesgo 12/25.
+- Avería: Volante bimasa desgastado. Síntoma: Vibraciones al ralentí y golpeteo al arrancar o apagar el motor. Solución: Sustituir el kit de embrague y el volante bimasa. Coste estimado: 1200 €. Frecuencia 3/5, gravedad 4/5, riesgo 12/25.
+- Avería: Correa de distribución en baño de aceite degradada (1.2 PureTech). Síntoma: Testigo de presión de aceite, pérdida de potencia y ruido del motor. Solución: Sustituir correa, tensor y bomba de vacío, limpiar el cárter y cambiar el aceite. Coste estimado: 1800 €. Frecuencia 4/5, gravedad 5/5, riesgo 20/25.
+
+COCHES DISPONIBLES RELACIONADOS:
+- Coche disponible: Peugeot 308 SW de 2020, 89100 km, Diésel, 8500 €.
+- Coche disponible: Peugeot 308 SW de 2015, 174900 km, Diésel, 3600 €.
+- Coche disponible: Peugeot 308 SW de 2021, 80900 km, Diésel, 9950 €.
+
+Pregunta: ¿Qué averías suele tener y cuánto cuesta repararlas?
+[4. Respuesta]
+El Peugeot 308 SW suele tener averías como amortiguadores traseros gastados, depósito de AdBlue averiado, consumo excesivo de aceite, volante bimasa desgastado e una correa de distribución en el baño de aceite degradada. Las averías más costosas son la correa de distribución, con un costo estimado de 1800 €, y el depósito de AdBlue, con un costo estimado de 900 €.
+
+--- Vía terminal: .\ai\asesor_averias.ps1 -Pregunta "¿Qué averías suele tener y cuánto cuesta repararlas?" -Modelo "Peugeot 308 SW"
+
+=== 1. Pregunta ===
+¿Qué averías suele tener y cuánto cuesta repararlas? (modelo: Peugeot 308 SW)
+
+=== 2. Documentos recuperados ===
+
+tipo   posicion distancia documento                                                                                                                                                                     
+----   -------- --------- ---------                                                                                                                                                                     
+avería        1    0,5599 Avería: Amortiguadores traseros gastados. Síntoma: El coche rebota en las curvas y se oye ruido en la parte trasera. Solución: Sustituir los amortiguadores traseros por      
+                          parejas. Coste estimado: 380 €. Frecuencia 2/5, gravedad 2/5, riesgo 4/25.                                                                                                    
+avería        2    0,5804 Avería: Depósito de AdBlue averiado. Síntoma: Aviso de que el motor no arrancará en un número de kilómetros. Solución: Sustituir el conjunto del depósito o la bomba de       
+                          AdBlue. Coste estimado: 900 €. Frecuencia 3/5, gravedad 4/5, riesgo 12/25.                                                                                                    
+avería        3    0,5848 Avería: Consumo excesivo de aceite (1.2 PureTech). Síntoma: El nivel de aceite baja mucho entre revisiones y aparece humo azulado. Solución: Descarbonizar o sustituir los    
+                          segmentos; en casos graves, reparar el motor. Coste estimado: 2500 €. Frecuencia 3/5, gravedad 4/5, riesgo 12/25.                                                             
+avería        4    0,5890 Avería: Volante bimasa desgastado. Síntoma: Vibraciones al ralentí y golpeteo al arrancar o apagar el motor. Solución: Sustituir el kit de embrague y el volante bimasa.      
+                          Coste estimado: 1200 €. Frecuencia 3/5, gravedad 4/5, riesgo 12/25.                                                                                                           
+avería        5    0,5988 Avería: Correa de distribución en baño de aceite degradada (1.2 PureTech). Síntoma: Testigo de presión de aceite, pérdida de potencia y ruido del motor. Solución: Sustituir  
+                          correa, tensor y bomba de vacío, limpiar el cárter y cambiar el aceite. Coste estimado: 1800 €. Frecuencia 4/5, gravedad 5/5, riesgo 20/25.                                   
+coche         1    0,6420 Coche disponible: Peugeot 308 SW de 2020, 89100 km, Diésel, 8500 €.                                                                                                           
+coche         2    0,6513 Coche disponible: Peugeot 308 SW de 2015, 174900 km, Diésel, 3600 €.                                                                                                          
+coche         3    0,6592 Coche disponible: Peugeot 308 SW de 2021, 80900 km, Diésel, 9950 €.                                                                                                           
+
+
+
+
+=== 3. Contexto enviado al modelo ===
+[sistema] Eres el asesor de averías del concesionario Bajo el Capó. Responde solo con el contexto proporcionado. Si no hay datos suficientes, dilo. Cita únicamente averías y costes que aparezcan en 
+el contexto; no inventes averías, causas ni precios. Si la sección de averías dice (ninguna), responde que no hay averías registradas para ese modelo. Responde en español, en un máximo de cinco 
+frases.
+[usuario] Contexto:
+AVERÍAS REGISTRADAS EN BAJO EL CAPÓ PARA Peugeot 308 SW:
+- Avería: Amortiguadores traseros gastados. Síntoma: El coche rebota en las curvas y se oye ruido en la parte trasera. Solución: Sustituir los amortiguadores traseros por parejas. Coste estimado: 380 
+€. Frecuencia 2/5, gravedad 2/5, riesgo 4/25.
+- Avería: Depósito de AdBlue averiado. Síntoma: Aviso de que el motor no arrancará en un número de kilómetros. Solución: Sustituir el conjunto del depósito o la bomba de AdBlue. Coste estimado: 900 
+€. Frecuencia 3/5, gravedad 4/5, riesgo 12/25.
+- Avería: Consumo excesivo de aceite (1.2 PureTech). Síntoma: El nivel de aceite baja mucho entre revisiones y aparece humo azulado. Solución: Descarbonizar o sustituir los segmentos; en casos 
+graves, reparar el motor. Coste estimado: 2500 €. Frecuencia 3/5, gravedad 4/5, riesgo 12/25.
+- Avería: Volante bimasa desgastado. Síntoma: Vibraciones al ralentí y golpeteo al arrancar o apagar el motor. Solución: Sustituir el kit de embrague y el volante bimasa. Coste estimado: 1200 €. 
+Frecuencia 3/5, gravedad 4/5, riesgo 12/25.
+- Avería: Correa de distribución en baño de aceite degradada (1.2 PureTech). Síntoma: Testigo de presión de aceite, pérdida de potencia y ruido del motor. Solución: Sustituir correa, tensor y bomba 
+de vacío, limpiar el cárter y cambiar el aceite. Coste estimado: 1800 €. Frecuencia 4/5, gravedad 5/5, riesgo 20/25.
+
+COCHES DISPONIBLES RELACIONADOS:
+- Coche disponible: Peugeot 308 SW de 2020, 89100 km, Diésel, 8500 €.
+- Coche disponible: Peugeot 308 SW de 2015, 174900 km, Diésel, 3600 €.
+- Coche disponible: Peugeot 308 SW de 2021, 80900 km, Diésel, 9950 €.
+
+Pregunta: ¿Qué averías suele tener y cuánto cuesta repararlas?
+
+=== 4. Respuesta ===
+El Peugeot 308 SW suele tener averías como amortiguadores traseros gastados, depósito de AdBlue averiado, consumo excesivo de aceite, volante bimasa desgastado e una correa de distribución en el baño 
+de aceite degradada. Las averías más costosas son la correa de distribución, con un costo estimado de 1800 €, y el depósito de AdBlue, con un costo estimado de 900 €.
+
+--- Comparación automática: prompt de sistema y contexto enviados IDÉNTICOS en las dos vías
+
+==================================================================
+PREGUNTA 2 · síntoma sin indicar modelo
+==================================================================
+--- Vía SSMS: EXEC ia.sp_asesor_averias @pregunta = N'Al acelerar noto tirones y el embrague patina, ¿qué puede ser y cuánto cuesta arreglarlo?';
+Conjuntos de resultados devueltos: 4 (pregunta, documentos, contexto, respuesta)
+[1. Pregunta]
+Al acelerar noto tirones y el embrague patina, ¿qué puede ser y cuánto cuesta arreglarlo? | modelo: NULL
+[2. Documentos recuperados]
+avería 1 · distancia 0.3604 · Avería: Embrague de la caja Powershift con vibraciones. Síntoma: Vibraciones y tirones al iniciar la marcha. Solución: Sustituir el embrague y los retenes de la caja Powershift. Coste estimado: 1600 €. Modelos afectados: Ford Fiesta, Ford Focus, Ford Kuga.
+avería 2 · distancia 0.3769 · Avería: Embrague de la caja DSG7 con tirones. Síntoma: Tirones al arrancar y cambios bruscos entre primera y segunda en atascos. Solución: Sustituir el doble embrague y recalibrar los puntos de contacto con diagnosis. Coste estimado: 1800 €. Modelos afectados: Seat Ibiza, Seat León, Seat Ateca, Volkswagen Polo, Volkswagen Golf.
+avería 3 · distancia 0.4185 · Avería: Cojinetes de biela desgastados (1.5 dCi). Síntoma: Ruido metálico grave del motor que aumenta al acelerar. Solución: Reparar el motor sustituyendo los cojinetes; en casos graves, cambiar el motor. Coste estimado: 2800 €. Modelos afectados: Renault Clio, Renault Mégane, Renault Scénic, Dacia Duster.
+avería 4 · distancia 0.4329 · Avería: Inyector de gasolina obstruido (1.0 TCe). Síntoma: Ralentí inestable y tirones al acelerar en frío. Solución: Limpiar o sustituir los inyectores. Coste estimado: 400 €. Modelos afectados: Renault Clio, Dacia Sandero, Dacia Duster.
+avería 5 · distancia 0.4357 · Avería: Bobina de encendido defectuosa. Síntoma: Tirones al acelerar, motor que vibra al ralentí y testigo de motor. Solución: Sustituir la bobina afectada y revisar las bujías. Coste estimado: 180 €. Modelos afectados: Seat Ibiza, Volkswagen Polo, Renault Clio, Peugeot 208, Ford Fiesta.
+coche 1 · distancia 0.5982 · Coche disponible: Kia Stinger de 2018, 125000 km, Diésel, 11800 €.
+coche 2 · distancia 0.5987 · Coche disponible: Kia Stinger de 2023, 43100 km, Gasolina, 27400 €.
+coche 3 · distancia 0.5994 · Coche disponible: Dacia Jogger de 2025, 20400 km, GLP, 16450 €.
+[3. Contexto enviado al modelo]
+(sistema) Eres el asesor de averías del concesionario Bajo el Capó. Responde solo con el contexto proporcionado. Si no hay datos suficientes, dilo. Cita únicamente averías y costes que aparezcan en el contexto; no inventes averías, causas ni precios. Si la sección de averías dice (ninguna), responde que no hay averías registradas para ese modelo. Responde en español, en un máximo de cinco frases.
+(usuario) Contexto:
+AVERÍAS REGISTRADAS EN BAJO EL CAPÓ:
+- Avería: Embrague de la caja Powershift con vibraciones. Síntoma: Vibraciones y tirones al iniciar la marcha. Solución: Sustituir el embrague y los retenes de la caja Powershift. Coste estimado: 1600 €. Modelos afectados: Ford Fiesta, Ford Focus, Ford Kuga.
+- Avería: Embrague de la caja DSG7 con tirones. Síntoma: Tirones al arrancar y cambios bruscos entre primera y segunda en atascos. Solución: Sustituir el doble embrague y recalibrar los puntos de contacto con diagnosis. Coste estimado: 1800 €. Modelos afectados: Seat Ibiza, Seat León, Seat Ateca, Volkswagen Polo, Volkswagen Golf.
+- Avería: Cojinetes de biela desgastados (1.5 dCi). Síntoma: Ruido metálico grave del motor que aumenta al acelerar. Solución: Reparar el motor sustituyendo los cojinetes; en casos graves, cambiar el motor. Coste estimado: 2800 €. Modelos afectados: Renault Clio, Renault Mégane, Renault Scénic, Dacia Duster.
+- Avería: Inyector de gasolina obstruido (1.0 TCe). Síntoma: Ralentí inestable y tirones al acelerar en frío. Solución: Limpiar o sustituir los inyectores. Coste estimado: 400 €. Modelos afectados: Renault Clio, Dacia Sandero, Dacia Duster.
+- Avería: Bobina de encendido defectuosa. Síntoma: Tirones al acelerar, motor que vibra al ralentí y testigo de motor. Solución: Sustituir la bobina afectada y revisar las bujías. Coste estimado: 180 €. Modelos afectados: Seat Ibiza, Volkswagen Polo, Renault Clio, Peugeot 208, Ford Fiesta.
+
+COCHES DISPONIBLES RELACIONADOS:
+- Coche disponible: Kia Stinger de 2018, 125000 km, Diésel, 11800 €.
+- Coche disponible: Kia Stinger de 2023, 43100 km, Gasolina, 27400 €.
+- Coche disponible: Dacia Jogger de 2025, 20400 km, GLP, 16450 €.
+
+Pregunta: Al acelerar noto tirones y el embrague patina, ¿qué puede ser y cuánto cuesta arreglarlo?
+[4. Respuesta]
+Avería: Embrague de la caja DSG7 con tirones. Coste estimado: 1800 €. Modelos afectados: Seat Ibiza, Seat León, Seat Ateca, Volkswagen Polo, Volkswagen Golf.
+
+--- Vía terminal: .\ai\asesor_averias.ps1 -Pregunta "Al acelerar noto tirones y el embrague patina, ¿qué puede ser y cuánto cuesta arreglarlo?"
+
+=== 1. Pregunta ===
+Al acelerar noto tirones y el embrague patina, ¿qué puede ser y cuánto cuesta arreglarlo? (sin modelo)
+
+=== 2. Documentos recuperados ===
+
+tipo   posicion distancia documento                                                                                                                                                                     
+----   -------- --------- ---------                                                                                                                                                                     
+avería        1    0,3604 Avería: Embrague de la caja Powershift con vibraciones. Síntoma: Vibraciones y tirones al iniciar la marcha. Solución: Sustituir el embrague y los retenes de la caja         
+                          Powershift. Coste estimado: 1600 €. Modelos afectados: Ford Fiesta, Ford Focus, Ford Kuga.                                                                                    
+avería        2    0,3769 Avería: Embrague de la caja DSG7 con tirones. Síntoma: Tirones al arrancar y cambios bruscos entre primera y segunda en atascos. Solución: Sustituir el doble embrague y      
+                          recalibrar los puntos de contacto con diagnosis. Coste estimado: 1800 €. Modelos afectados: Seat Ibiza, Seat León, Seat Ateca, Volkswagen Polo, Volkswagen Golf.              
+avería        3    0,4185 Avería: Cojinetes de biela desgastados (1.5 dCi). Síntoma: Ruido metálico grave del motor que aumenta al acelerar. Solución: Reparar el motor sustituyendo los cojinetes; en  
+                          casos graves, cambiar el motor. Coste estimado: 2800 €. Modelos afectados: Renault Clio, Renault Mégane, Renault Scénic, Dacia Duster.                                        
+avería        4    0,4329 Avería: Inyector de gasolina obstruido (1.0 TCe). Síntoma: Ralentí inestable y tirones al acelerar en frío. Solución: Limpiar o sustituir los inyectores. Coste estimado: 400 
+                          €. Modelos afectados: Renault Clio, Dacia Sandero, Dacia Duster.                                                                                                              
+avería        5    0,4357 Avería: Bobina de encendido defectuosa. Síntoma: Tirones al acelerar, motor que vibra al ralentí y testigo de motor. Solución: Sustituir la bobina afectada y revisar las     
+                          bujías. Coste estimado: 180 €. Modelos afectados: Seat Ibiza, Volkswagen Polo, Renault Clio, Peugeot 208, Ford Fiesta.                                                        
+coche         1    0,5982 Coche disponible: Kia Stinger de 2018, 125000 km, Diésel, 11800 €.                                                                                                            
+coche         2    0,5987 Coche disponible: Kia Stinger de 2023, 43100 km, Gasolina, 27400 €.                                                                                                           
+coche         3    0,5994 Coche disponible: Dacia Jogger de 2025, 20400 km, GLP, 16450 €.                                                                                                               
+
+
+
+
+=== 3. Contexto enviado al modelo ===
+[sistema] Eres el asesor de averías del concesionario Bajo el Capó. Responde solo con el contexto proporcionado. Si no hay datos suficientes, dilo. Cita únicamente averías y costes que aparezcan en 
+el contexto; no inventes averías, causas ni precios. Si la sección de averías dice (ninguna), responde que no hay averías registradas para ese modelo. Responde en español, en un máximo de cinco 
+frases.
+[usuario] Contexto:
+AVERÍAS REGISTRADAS EN BAJO EL CAPÓ:
+- Avería: Embrague de la caja Powershift con vibraciones. Síntoma: Vibraciones y tirones al iniciar la marcha. Solución: Sustituir el embrague y los retenes de la caja Powershift. Coste estimado: 
+1600 €. Modelos afectados: Ford Fiesta, Ford Focus, Ford Kuga.
+- Avería: Embrague de la caja DSG7 con tirones. Síntoma: Tirones al arrancar y cambios bruscos entre primera y segunda en atascos. Solución: Sustituir el doble embrague y recalibrar los puntos de 
+contacto con diagnosis. Coste estimado: 1800 €. Modelos afectados: Seat Ibiza, Seat León, Seat Ateca, Volkswagen Polo, Volkswagen Golf.
+- Avería: Cojinetes de biela desgastados (1.5 dCi). Síntoma: Ruido metálico grave del motor que aumenta al acelerar. Solución: Reparar el motor sustituyendo los cojinetes; en casos graves, cambiar el 
+motor. Coste estimado: 2800 €. Modelos afectados: Renault Clio, Renault Mégane, Renault Scénic, Dacia Duster.
+- Avería: Inyector de gasolina obstruido (1.0 TCe). Síntoma: Ralentí inestable y tirones al acelerar en frío. Solución: Limpiar o sustituir los inyectores. Coste estimado: 400 €. Modelos afectados: 
+Renault Clio, Dacia Sandero, Dacia Duster.
+- Avería: Bobina de encendido defectuosa. Síntoma: Tirones al acelerar, motor que vibra al ralentí y testigo de motor. Solución: Sustituir la bobina afectada y revisar las bujías. Coste estimado: 180 
+€. Modelos afectados: Seat Ibiza, Volkswagen Polo, Renault Clio, Peugeot 208, Ford Fiesta.
+
+COCHES DISPONIBLES RELACIONADOS:
+- Coche disponible: Kia Stinger de 2018, 125000 km, Diésel, 11800 €.
+- Coche disponible: Kia Stinger de 2023, 43100 km, Gasolina, 27400 €.
+- Coche disponible: Dacia Jogger de 2025, 20400 km, GLP, 16450 €.
+
+Pregunta: Al acelerar noto tirones y el embrague patina, ¿qué puede ser y cuánto cuesta arreglarlo?
+
+=== 4. Respuesta ===
+Avería: Embrague de la caja DSG7 con tirones. Coste estimado: 1800 €. Modelos afectados: Seat Ibiza, Seat León, Seat Ateca, Volkswagen Polo, Volkswagen Golf.
+
+--- Comparación automática: prompt de sistema y contexto enviados IDÉNTICOS en las dos vías
+
+==================================================================
+CASO DE CONTROL · Dacia Jogger (sin averías registradas)
+==================================================================
+--- Vía SSMS: EXEC ia.sp_asesor_averias @pregunta = N'¿Qué averías suele tener y cuánto cuesta repararlas?', @modelo = N'Dacia Jogger';
+Conjuntos de resultados devueltos: 4 (pregunta, documentos, contexto, respuesta)
+[1. Pregunta]
+¿Qué averías suele tener y cuánto cuesta repararlas? | modelo: Dacia Jogger
+[2. Documentos recuperados]
+coche 1 · distancia 0.6458 · Coche disponible: Dacia Jogger de 2025, 20400 km, GLP, 16450 €.
+coche 2 · distancia 0.6506 · Coche disponible: Dacia Jogger de 2026, 19400 km, GLP, 19100 €.
+coche 3 · distancia 0.6681 · Coche disponible: Dacia Jogger de 2022, 63500 km, GLP, 10000 €.
+[3. Contexto enviado al modelo]
+(sistema) Eres el asesor de averías del concesionario Bajo el Capó. Responde solo con el contexto proporcionado. Si no hay datos suficientes, dilo. Cita únicamente averías y costes que aparezcan en el contexto; no inventes averías, causas ni precios. Si la sección de averías dice (ninguna), responde que no hay averías registradas para ese modelo. Responde en español, en un máximo de cinco frases.
+(usuario) Contexto:
+AVERÍAS REGISTRADAS EN BAJO EL CAPÓ PARA Dacia Jogger:
+(ninguna)
+
+COCHES DISPONIBLES RELACIONADOS:
+- Coche disponible: Dacia Jogger de 2025, 20400 km, GLP, 16450 €.
+- Coche disponible: Dacia Jogger de 2026, 19400 km, GLP, 19100 €.
+- Coche disponible: Dacia Jogger de 2022, 63500 km, GLP, 10000 €.
+
+Pregunta: ¿Qué averías suele tener y cuánto cuesta repararlas?
+[4. Respuesta]
+No hay averías registradas para ese modelo.
+
+--- Vía terminal: .\ai\asesor_averias.ps1 -Pregunta "¿Qué averías suele tener y cuánto cuesta repararlas?" -Modelo "Dacia Jogger"
+
+=== 1. Pregunta ===
+¿Qué averías suele tener y cuánto cuesta repararlas? (modelo: Dacia Jogger)
+
+=== 2. Documentos recuperados ===
+
+tipo  posicion distancia documento                                                      
+----  -------- --------- ---------                                                      
+coche        1    0,6458 Coche disponible: Dacia Jogger de 2025, 20400 km, GLP, 16450 €.
+coche        2    0,6506 Coche disponible: Dacia Jogger de 2026, 19400 km, GLP, 19100 €.
+coche        3    0,6681 Coche disponible: Dacia Jogger de 2022, 63500 km, GLP, 10000 €.
+
+
+
+
+=== 3. Contexto enviado al modelo ===
+[sistema] Eres el asesor de averías del concesionario Bajo el Capó. Responde solo con el contexto proporcionado. Si no hay datos suficientes, dilo. Cita únicamente averías y costes que aparezcan en 
+el contexto; no inventes averías, causas ni precios. Si la sección de averías dice (ninguna), responde que no hay averías registradas para ese modelo. Responde en español, en un máximo de cinco 
+frases.
+[usuario] Contexto:
+AVERÍAS REGISTRADAS EN BAJO EL CAPÓ PARA Dacia Jogger:
+(ninguna)
+
+COCHES DISPONIBLES RELACIONADOS:
+- Coche disponible: Dacia Jogger de 2025, 20400 km, GLP, 16450 €.
+- Coche disponible: Dacia Jogger de 2026, 19400 km, GLP, 19100 €.
+- Coche disponible: Dacia Jogger de 2022, 63500 km, GLP, 10000 €.
+
+Pregunta: ¿Qué averías suele tener y cuánto cuesta repararlas?
+
+=== 4. Respuesta ===
+No hay averías registradas para ese modelo.
+
+--- Comparación automática: prompt de sistema y contexto enviados IDÉNTICOS en las dos vías
+
