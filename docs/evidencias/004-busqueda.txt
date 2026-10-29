@@ -1,0 +1,94 @@
+﻿# Evidencia 004 · Búsqueda semántica (salidas reales)
+
+Vía SSMS: sqlcmd con EXEC ia.sp_buscar_coches (embedding generado dentro de SQL Server, vía Caddy).
+Vía terminal: .\ai\buscar_coches.ps1 (embedding pedido a Ollama directamente; ranking con ia.sp_buscar_coches_vector).
+Las dos vías usan la misma función de ranking ia.fn_ranking_coches.
+
+==================================================================
+FRASE 1 · familiar, económico y fiable para ciudad y escapadas
+==================================================================
+--- Vía SSMS: EXEC ia.sp_buscar_coches @consulta = N'familiar, económico y fiable para ciudad y escapadas', @precio_max = 14000, @top = 5;
+posicion distancia marca modelo segmento anio kilometros combustible precio_venta descripcion
+-------- --------- ----- ------ -------- ---- ---------- ----------- ------------ -----------
+1 .4500 Peugeot 308 SW Familiar 2020 89100 Diésel 8500.00 Pensado para cargar de todo: bicicletas, equipaje y sillas infantiles sin renunciar al confort. Diésel con mucho par, cómodo en viajes largos. Garantía de doce meses incluida.
+2 .4569 Toyota Corolla Touring Sports Familiar 2020 103800 Híbrido 10150.00 Maletero enorme y plazas traseras amplias; caben carritos, maletas y la compra de la semana. Híbrido con etiqueta ECO: consumo muy bajo en atascos y acceso a zonas de bajas emisiones. Garantía de doce meses incluida.
+3 .4666 Seat León Compacto 2018 129000 Diésel 5750.00 Tamaño justo para cinco personas, con maletero práctico y conducción agradable. Diésel con mucho par, cómodo en viajes largos. Interior muy cuidado, sin olores ni desgastes.
+4 .4679 Peugeot 308 SW Familiar 2018 125000 Gasolina 6000.00 Pensado para cargar de todo: bicicletas, equipaje y sillas infantiles sin renunciar al confort. Motor de gasolina con respuesta viva. Revisiones al día en servicio oficial.
+5 .4679 Peugeot 308 SW Familiar 2016 141000 Gasolina 4350.00 Pensado para cargar de todo: bicicletas, equipaje y sillas infantiles sin renunciar al confort. Motor de gasolina con respuesta viva. Revisiones al día en servicio oficial.
+
+--- Vía terminal: .\ai\buscar_coches.ps1 -Consulta "familiar, económico y fiable para ciudad y escapadas" -PrecioMax 14000
+
+posicion distancia marca   modelo                 segmento anio precio_venta descripcion                                                            
+-------- --------- -----   ------                 -------- ---- ------------ -----------                                                            
+       1    0,4500 Peugeot 308 SW                 Familiar 2020      8500,00 Pensado para cargar de todo: bicicletas, equipaje y sillas infantiles …
+       2    0,4569 Toyota  Corolla Touring Sports Familiar 2020     10150,00 Maletero enorme y plazas traseras amplias; caben carritos, maletas y l…
+       3    0,4666 Seat    León                   Compacto 2018      5750,00 Tamaño justo para cinco personas, con maletero práctico y conducción a…
+       4    0,4679 Peugeot 308 SW                 Familiar 2018      6000,00 Pensado para cargar de todo: bicicletas, equipaje y sillas infantiles …
+       5    0,4679 Peugeot 308 SW                 Familiar 2016      4350,00 Pensado para cargar de todo: bicicletas, equipaje y sillas infantiles …
+--- Comparación automática (posición, marca, modelo, precio y distancia): MISMO TOP en las dos vías
+
+==================================================================
+FRASE 2 · coche cómodo para viajes largos por autopista
+==================================================================
+--- Vía SSMS: EXEC ia.sp_buscar_coches @consulta = N'coche cómodo para viajes largos por autopista', @top = 5;
+posicion distancia marca modelo segmento anio kilometros combustible precio_venta descripcion
+-------- --------- ----- ------ -------- ---- ---------- ----------- ------------ -----------
+1 .3983 Seat León Compacto 2018 115800 Gasolina 5800.00 Un coche polivalente para ir al trabajo entre semana y viajar el fin de semana. Motor de gasolina suave y silencioso. Pequeños arañazos en el paragolpes, mecánicamente impecable.
+2 .4021 Seat León Compacto 2018 129000 Diésel 5750.00 Tamaño justo para cinco personas, con maletero práctico y conducción agradable. Diésel con mucho par, cómodo en viajes largos. Interior muy cuidado, sin olores ni desgastes.
+3 .4084 Seat Ateca SUV 2025 15600 Diésel 22850.00 Robusto y práctico para rutas por montaña o casas de campo. Diésel con mucho par, cómodo en viajes largos. Pintura en buen estado y tapicería sin manchas.
+4 .4086 Volkswagen Passat Berlina 2023 52900 Diésel 19300.00 Gran rodadora: estable en autopista, con un interior espacioso y bien acabado. Motor diésel de bajo consumo, ideal para hacer muchos kilómetros. Pequeños arañazos en el paragolpes, mecánicamente impecable.
+5 .4087 Seat León Compacto 2018 118300 Diésel 5800.00 Un coche polivalente para ir al trabajo entre semana y viajar el fin de semana. Motor diésel de bajo consumo, ideal para hacer muchos kilómetros. Neumáticos nuevos y pastillas recién cambiadas.
+
+--- Vía terminal: .\ai\buscar_coches.ps1 -Consulta "coche cómodo para viajes largos por autopista"
+
+posicion distancia marca      modelo segmento anio precio_venta descripcion                                                            
+-------- --------- -----      ------ -------- ---- ------------ -----------                                                            
+       1    0,3983 Seat       León   Compacto 2018      5800,00 Un coche polivalente para ir al trabajo entre semana y viajar el fin d…
+       2    0,4021 Seat       León   Compacto 2018      5750,00 Tamaño justo para cinco personas, con maletero práctico y conducción a…
+       3    0,4084 Seat       Ateca  SUV      2025     22850,00 Robusto y práctico para rutas por montaña o casas de campo. Diésel con…
+       4    0,4086 Volkswagen Passat Berlina  2023     19300,00 Gran rodadora: estable en autopista, con un interior espacioso y bien …
+       5    0,4087 Seat       León   Compacto 2018      5800,00 Un coche polivalente para ir al trabajo entre semana y viajar el fin d…
+--- Comparación automática (posición, marca, modelo, precio y distancia): MISMO TOP en las dos vías
+
+==================================================================
+FRASE 3 · aventura por caminos de tierra y fines de semana en el campo
+==================================================================
+--- Vía SSMS: EXEC ia.sp_buscar_coches @consulta = N'aventura por caminos de tierra y fines de semana en el campo', @segmento = N'SUV', @top = 5;
+posicion distancia marca modelo segmento anio kilometros combustible precio_venta descripcion
+-------- --------- ----- ------ -------- ---- ---------- ----------- ------------ -----------
+1 .5897 Seat Ateca SUV 2025 15600 Diésel 22850.00 Robusto y práctico para rutas por montaña o casas de campo. Diésel con mucho par, cómodo en viajes largos. Pintura en buen estado y tapicería sin manchas.
+2 .5919 Seat Ateca SUV 2026 1000 Diésel 26950.00 Robusto y práctico para rutas por montaña o casas de campo. Motor diésel de bajo consumo, ideal para hacer muchos kilómetros. Neumáticos nuevos y pastillas recién cambiadas.
+3 .5961 Dacia Duster SUV 2023 43000 Diésel 10350.00 Robusto y práctico para rutas por montaña o casas de campo. Diésel con mucho par, cómodo en viajes largos. Revisiones al día en servicio oficial.
+4 .5969 Seat Ateca SUV 2026 500 Gasolina 27000.00 Robusto y práctico para rutas por montaña o casas de campo. Motor de gasolina suave y silencioso. Pequeños arañazos en el paragolpes, mecánicamente impecable.
+5 .6022 Ford Kuga SUV 2015 159600 Diésel 4150.00 Espacioso y con aspecto aventurero, apto para viajes largos con toda la familia. Motor diésel de bajo consumo, ideal para hacer muchos kilómetros. Pintura en buen estado y tapicería sin manchas.
+
+--- Vía terminal: .\ai\buscar_coches.ps1 -Consulta "aventura por caminos de tierra y fines de semana en el campo" -Segmento SUV
+
+posicion distancia marca modelo segmento anio precio_venta descripcion                                                            
+-------- --------- ----- ------ -------- ---- ------------ -----------                                                            
+       1    0,5897 Seat  Ateca  SUV      2025     22850,00 Robusto y práctico para rutas por montaña o casas de campo. Diésel con…
+       2    0,5919 Seat  Ateca  SUV      2026     26950,00 Robusto y práctico para rutas por montaña o casas de campo. Motor diés…
+       3    0,5961 Dacia Duster SUV      2023     10350,00 Robusto y práctico para rutas por montaña o casas de campo. Diésel con…
+       4    0,5969 Seat  Ateca  SUV      2026     27000,00 Robusto y práctico para rutas por montaña o casas de campo. Motor de g…
+       5    0,6022 Ford  Kuga   SUV      2015      4150,00 Espacioso y con aspecto aventurero, apto para viajes largos con toda l…
+--- Comparación automática (posición, marca, modelo, precio y distancia): MISMO TOP en las dos vías
+
+==================================================================
+CONTRASTE · búsqueda por palabras clave (08_advanced_queries.sql, bloque E2)
+==================================================================
+REGEXP_LIKE(descripcion, 'ciudad|urban|aparcar', 'i') solo encuentra textos con esas palabras:
+coches_con_palabra
+------------------
+56
+coches_con_palabra_familiar
+---------------------------
+0
+
+Para la frase 1, la búsqueda semántica devuelve coches cuya descripción no contiene «familiar», «económico», «fiable» ni «escapadas»:
+posicion marca modelo contiene_palabras_de_la_frase
+-------- ----- ------ -----------------------------
+1 Peugeot 308 SW no
+2 Toyota Corolla Touring Sports no
+3 Seat León no
+4 Peugeot 308 SW no
+5 Peugeot 308 SW no

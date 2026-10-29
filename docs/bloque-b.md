@@ -84,3 +84,24 @@ lo que generó la IA, lo que se aceptó, lo que se corrigió y cómo se verific�
   comercial (7/8/15/14), email y teléfono enmascarados, errores 229 para mecánico, comercial e IA, y
   el error 50103 al reservar para un cliente ajeno; tras la demo siguen existiendo 44 reservas;
   bloque G de `tests/tests.sql` en verde. Evidencia: `docs/evidencias/002-seguridad.txt`.
+
+---
+
+## Caso 5 · Buscador semántico (`ai/`, `tests/tests_ia.sql`)
+
+- **Herramienta**: Claude Code (implement de la feature 004).
+- **Entrada**: bloque «Entrada para plan» de `docs/prompts/004-busqueda-semantica.md`.
+- **Qué generó**: el modelo externo, `ia.sp_generar_embeddings`, la función `ia.fn_ranking_coches`,
+  los dos procedimientos de búsqueda, `ai/comun.ps1`, `ai/buscar_coches.ps1` y `tests/tests_ia.sql`.
+- **Qué se aceptó**: todo el T-SQL de `ai/`, que funcionó al primer intento (incluido
+  `EXECUTE AS 'ia_servicio'` con `AI_GENERATE_EMBEDDINGS`).
+- **Qué se corrigió**:
+  1. `tests/tests_ia.sql` no compilaba (error 113, «falta la marca de fin de comentario»): la
+     cabecera decía `ai/*.sql`, y ese `/*` abre un comentario anidado dentro del bloque de la
+     cabecera. Se reescribió como «scripts de ai/».
+  2. El script que generaba la evidencia estaba en UTF-8 sin BOM. PowerShell 5.1 lo leyó como ANSI
+     y envió las frases a Ollama como «econÃ³mico»: el top salía distinto. Se descartó esa
+     evidencia, se guardó el script con BOM y se regeneró (decisión D18).
+- **Cómo se verificó**: `run_all.ps1 -ConIA` desde cero en verde (bloques I y J). Para las tres
+  frases, una comparación automática de posición, marca, modelo, precio y distancia entre la vía
+  SSMS y la vía terminal da «MISMO TOP en las dos vías». Evidencia: `docs/evidencias/004-busqueda.txt`.
