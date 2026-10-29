@@ -1,50 +1,89 @@
-# [PROJECT_NAME] Constitution
-<!-- Example: Spec Constitution, TaskFlow Constitution, etc. -->
+# Constitución de Bajo el Capó
+
+Proyecto Bajo el Capó (DP-800, Práctica 09): buscador semántico y asesor de averías para un
+concesionario de coches de segunda mano, con SQL Server 2025 en local e IA local con Ollama.
+Nivel 3. Autor: Emmanuel Grande Sierra.
 
 ## Core Principles
 
-### [PRINCIPLE_1_NAME]
-<!-- Example: I. Library-First -->
-[PRINCIPLE_1_DESCRIPTION]
-<!-- Example: Every feature starts as a standalone library; Libraries must be self-contained, independently testable, documented; Clear purpose required - no organizational-only libraries -->
+### I. Requisitos del enunciado primero
 
-### [PRINCIPLE_2_NAME]
-<!-- Example: II. CLI Interface -->
-[PRINCIPLE_2_DESCRIPTION]
-<!-- Example: Every library exposes functionality via CLI; Text in/out protocol: stdin/args → stdout, errors → stderr; Support JSON + human-readable formats -->
+`referencias/enunciado-practica-09.md` es obligatorio y MUST prevalecer sobre cualquier otra fuente.
+`referencias/propuesta-bajo-el-capo.md` define el alcance y las tecnologías. Nada fuera de alcance
+se añade sin anotarlo en `docs/decisiones.md`.
 
-### [PRINCIPLE_3_NAME]
-<!-- Example: III. Test-First (NON-NEGOTIABLE) -->
-[PRINCIPLE_3_DESCRIPTION]
-<!-- Example: TDD mandatory: Tests written → User approved → Tests fail → Then implement; Red-Green-Refactor cycle strictly enforced -->
+### II. Local y sin secretos
 
-### [PRINCIPLE_4_NAME]
-<!-- Example: IV. Integration Testing -->
-[PRINCIPLE_4_DESCRIPTION]
-<!-- Example: Focus areas requiring integration tests: New library contract tests, Contract changes, Inter-service communication, Shared schemas -->
+SQL Server 2025, Ollama y Caddy se ejecutan en el equipo del alumno. Prohibidos Azure y Microsoft
+Fabric. El repositorio MUST NOT contener contraseñas, claves, IPs personales ni rutas absolutas.
+La instalación de Ollama y Caddy no se versiona: se documenta en el README.
 
-### [PRINCIPLE_5_NAME]
-<!-- Example: V. Observability, VI. Versioning & Breaking Changes, VII. Simplicity -->
-[PRINCIPLE_5_DESCRIPTION]
-<!-- Example: Text I/O ensures debuggability; Structured logging required; Or: MAJOR.MINOR.BUILD format; Or: Start simple, YAGNI principles -->
+### III. Reproducible desde cero
 
-## [SECTION_2_NAME]
-<!-- Example: Additional Constraints, Security Requirements, Performance Standards, etc. -->
+Scripts numerados y re-ejecutables cuando sea posible. Un único comando (`run_all.ps1`) MUST
+recrear la base y ejecutar los tests; con `-ConIA` incluye la parte de IA.
 
-[SECTION_2_CONTENT]
-<!-- Example: Technology stack requirements, compliance standards, deployment policies, etc. -->
+### IV. Demostrar que funciona
 
-## [SECTION_3_NAME]
-<!-- Example: Development Workflow, Review Process, Quality Gates, etc. -->
+Cada funcionalidad se presenta como código, ejecución, resultado y explicación. Cada una MUST
+tener un test y una evidencia real en `docs/evidencias/`. Nunca se inventan resultados, tiempos
+ni cifras.
 
-[SECTION_3_CONTENT]
-<!-- Example: Code review requirements, testing gates, deployment approval process, etc. -->
+### V. Calidad del T-SQL
+
+Esquemas propios (`catalogo`, `taller`, `ventas`, `ia`, `seg`), ningún objeto en `dbo`, cabecera
+en cada script, bloques etiquetados A, B, C con comentarios breves, `CREATE OR ALTER`,
+transacciones con `TRY/CATCH` y `THROW` con códigos documentados (500xx tests, 501xx
+procedimientos, 502xx seguridad, 503xx IA) y nada de `SELECT *`.
+
+### VI. Mínimo privilegio
+
+Los usuarios acceden por vistas y procedimientos según su rol, sin acceso directo a las tablas
+base. Row-Level Security y Dynamic Data Masking MUST proteger los datos de clientes.
+
+### VII. IA local y honesta
+
+bge-m3 (1024 dimensiones) para embeddings y qwen2.5:3b para respuestas, ambos en Ollama.
+Distancia coseno. Dos vías (SSMS y terminal) con la misma lógica de recuperación en T-SQL.
+El RAG MUST usar un prompt restrictivo, temperatura 0 y un caso de control sin datos.
+
+### VIII. Pequeño y bien explicado
+
+La solución mínima que cumple cada bloque del enunciado (A a G), sin interfaz gráfica ni extras
+no pedidos.
+
+### IX. Trazabilidad del desarrollo con IA
+
+Specs, planes, tareas, decisiones y casos del bloque B quedan documentados en el repositorio
+(`specs/`, `docs/decisiones.md`, `docs/bloque-b.md`).
+
+### X. Autonomía con frenos
+
+El agente decide con las fuentes y registra la decisión. Solo se detiene en los casos que indica
+`CLAUDE.md`: Ollama o Caddy caídos, contradicción que afecte a la evaluación, test que falla tras
+3 intentos, o acciones que requieren instalar software o tocar la configuración del sistema.
+
+## Restricciones técnicas
+
+- Windows 11, SQL Server 2025 (nivel de compatibilidad 170), SSMS 22, PowerShell y sqlcmd.
+- Base de datos `BajoElCapoDB`; vectores `VECTOR(1024)`; similitud con `VECTOR_DISTANCE('cosine', ...)`.
+- SQL Server llama a los modelos por HTTPS a través de Caddy (`https://localhost:11435`); la vía
+  terminal llama a Ollama en `http://localhost:11434`.
+
+## Flujo de desarrollo
+
+- Spec-Driven Development con Spec Kit, ruta corta: specify → plan → tasks → implement.
+- Una rama por feature (001 a 006), cada una a partir de la anterior; commits pequeños con
+  mensajes convencionales en español. El merge a `main` lo autoriza el alumno.
+- Cierre de feature: tests en verde con `run_all.ps1`, evidencias reales, `docs/decisiones.md`,
+  `docs/bloque-b.md` y `docs/estado.md` actualizados, y commit.
 
 ## Governance
-<!-- Example: Constitution supersedes all other practices; Amendments require documentation, approval, migration plan -->
 
-[GOVERNANCE_RULES]
-<!-- Example: All PRs/reviews must verify compliance; Complexity must be justified; Use [GUIDANCE_FILE] for runtime development guidance -->
+Orden de prioridad de las fuentes: enunciado, propuesta, esta constitución, specs y
+`docs/prompts/`. Esta constitución y `CLAUDE.md` deben decir lo mismo; si una cambia, se actualizan
+las dos y el cambio se anota en `docs/decisiones.md`. Versionado semántico: MAJOR para eliminar o
+redefinir principios, MINOR para añadirlos, PATCH para aclaraciones. Cada plan de feature incluye
+una comprobación de cumplimiento de estos principios.
 
-**Version**: [CONSTITUTION_VERSION] | **Ratified**: [RATIFICATION_DATE] | **Last Amended**: [LAST_AMENDED_DATE]
-<!-- Example: Version: 2.1.1 | Ratified: 2025-06-13 | Last Amended: 2025-07-16 -->
+**Version**: 1.0.0 | **Ratified**: 2026-10-29 | **Last Amended**: 2026-10-29
