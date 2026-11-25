@@ -65,8 +65,3 @@ CREATE INDEX ix_vehiculos_estado_precio
 - **Cuándo no mejoraría**: si el filtro de precio abarcara casi toda la tabla, o si se pidieran
   todas las filas en lugar de una página, el bucle anidado perdería ventaja frente al recorrido. El
   optimizador elige el plan con las estadísticas, que se actualizan en `07` con `FULLSCAN`.
-
-## Capturas pendientes (alumno)
-
-Añadir en `docs/img/` las capturas del plan gráfico de SSMS antes y después. Abre los `.sqlplan`
-con SSMS, o ejecuta `07` con «Incluir plan de ejecución real» (Ctrl+M).

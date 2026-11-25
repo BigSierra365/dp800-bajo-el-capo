@@ -1,3 +1,28 @@
+# Material de referencia del profesor (no se publica)
 referencias/
+
+# Herramientas de desarrollo: Claude Code y Spec Kit
+.claude/
+.specify/
+specs/
+CLAUDE.md
+
+# Documentos de trabajo internos
+docs/prompts/
+docs/estado.md
 guia-manual-alumno.txt
+prompt-cowork-capturas.md
+
+# Capturas fallidas o descartadas
+img/error-*
+
+# Copias de seguridad y archivos temporales
 *.bak
+*.tmp
+~$*
+
+# Archivos del sistema y del editor
+Thumbs.db
+desktop.ini
+.DS_Store
+.vscode/
