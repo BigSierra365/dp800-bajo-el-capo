@@ -768,8 +768,17 @@ Datos de prueba cargados correctamente.
 - ✓ Se usó un asistente de IA (Claude, en el chat), principalmente para **generar los datos de
   prueba** y para la **planificación general** del proyecto: alcance, modelo de datos, orden de
   trabajo y estrategia de pruebas.
-- ✓ Están documentados el prompt, la respuesta, las partes aceptadas, las corregidas y cómo se
-  verificó · [`docs/bloque-b.md`](docs/bloque-b.md)
+- ✓ También generó código que hubo que corregir al ejecutarlo. Casos documentados (qué se pidió,
+  qué se aceptó, qué se corrigió y cómo se verificó; detalle en el apartado 6.1 de
+  [`docs/proyecto.md`](docs/proyecto.md)):
+
+| Caso | Qué se pidió | Qué se aceptó | Qué se corrigió | Cómo se verificó |
+| --- | --- | --- | --- | --- |
+| Datos de prueba (`03`) | Script de inserción para las 9 tablas, con descripciones naturales, JSON, teléfonos a normalizar y un modelo sin averías | Todo el script (897 líneas) | Nada en los datos; en la ejecución, `sqlcmd -I` (error 1934 por `QUOTED_IDENTIFIER`) | Tests de recuentos exactos y de coherencia coches-reservas-ventas |
+| Ficha JSON (`08`, D2) | Consultas avanzadas, una por técnica, ligadas a una pregunta de negocio | CTE, window functions, correlacionada, JSON y regex | `averias_top` salía como texto escapado; `JSON_QUERY` no bastaba con `ORDER BY` → `CAST(... AS JSON)` | Ejecución real: el campo sale como array |
+| `run_all.ps1` | Recrear todo en orden, omitir scripts vacíos y parar en el primer error | Estructura y orden | Faltaba `-I`; los vacíos no se omitían (`IsNullOrWhiteSpace`); el nombre del equipo se colaba en los errores | `run_all.ps1` desde cero en verde y sin datos del equipo en las evidencias |
+| Seguridad (`06` y demo) | Script idempotente con roles, RLS, DDM y demo con `EXECUTE AS` | Roles, permisos, RLS, máscaras y tests | Limpieza de máscaras con SQL dinámico (error 16007); el `ROLLBACK` del procedimiento deshacía la transacción de la demo | `06` ejecutado dos veces seguidas; demo con filas distintas por comercial y errores 229 y 50103 |
+| Buscador (`ai/`) | Modelo externo, embeddings, ranking y búsqueda por dos vías | Todo el T-SQL de `ai/` | Comentario `/*` anidado en la cabecera de los tests (error 113); script de evidencia sin BOM que rompía las tildes | `run_all.ps1 -ConIA` en verde y el mismo top en las dos vías |
 
 ### Bloque C · Seguridad (tres mecanismos)
 
@@ -1448,7 +1457,6 @@ bajo-el-capo/
 │   └── medir_optimizacion.ps1      ← planes reales antes y después
 └── docs/
     ├── proyecto.md                 ← informe técnico (se exporta a PDF)
-    ├── bloque-b.md                 ← desarrollo asistido por IA
     ├── decisiones.md               ← decisiones técnicas y su motivo
     └── evidencias/                 ← salidas completas de las ejecuciones
 ```

@@ -218,7 +218,7 @@ El **Dacia Jogger** no tiene averías registradas: es el caso de control del RAG
 | Bloque | Implementación |
 | --- | --- |
 | A · Diseño y T-SQL | 9 tablas; 3 vistas (`vw_catalogo` no expone el precio de compra); funciones `fn_coste_esperado` y `fn_averias_modelo`; procedimientos `sp_registrar_reserva` y `sp_registrar_venta` con transacciones, bloqueo y errores controlados; trigger `tr_reservas_estado`; consultas con CTE, window functions, consulta correlacionada, JSON y expresiones regulares |
-| B · Desarrollo asistido por IA | Asistente de IA (Claude, en el chat) usado principalmente para generar los datos de prueba y para la planificación general del proyecto. Documentado en `docs/bloque-b.md` |
+| B · Desarrollo asistido por IA | Asistente de IA (Claude, en el chat) usado principalmente para generar los datos de prueba y para la planificación general del proyecto, y para generar código que se corrigió al ejecutarlo. Documentado en el apartado 6.1 |
 | C · Seguridad | 4 roles, 7 usuarios sin inicio de sesión, `GRANT`/`DENY`, Row-Level Security y Dynamic Data Masking |
 | D · Optimización | Índice compuesto para el listado del catálogo, medido con 50.228 coches |
 | E · Embeddings | Modelo externo bge-m3; 228 coches y 57 averías en `VECTOR(1024)` |
@@ -231,6 +231,10 @@ El **Dacia Jogger** no tiene averías registradas: es el caso de control del RAG
 | --- | --- | --- | --- |
 | Datos de prueba | Un script de inserción para las 9 tablas: un concesionario grande, descripciones naturales que no repitan las palabras de las búsquedas, equipamiento en JSON, teléfonos con formatos distintos y un modelo sin averías | Se aceptó el script completo (897 líneas). No hubo que cambiar los datos; sí la forma de ejecutarlo (`sqlcmd -I`) | Tests de recuentos exactos y de coherencia entre coches, reservas y ventas |
 | Planificación general | Alcance por bloques, tecnologías, modelo de datos, orden de trabajo por fases y estrategia de pruebas | Se aceptó la división en seis fases y la estructura del repositorio. Se corrigió el planteamiento inicial: Ollama en lugar de Copilot Chat como IA de la solución, Caddy para el HTTPS, dos vías de uso, esquemas propios en lugar de `dbo` y una tabla `Ventas` para cerrar el ciclo reserva-venta | Cada fase se cerró con sus tests en verde y sus salidas reales |
+| Ficha JSON de un coche (`08`, D2) | Consultas avanzadas, una por técnica (CTE, window functions, correlacionada, JSON y regex), ligadas a una pregunta de negocio | Se aceptaron todas. Se corrigió `averias_top`, que salía como texto escapado: `JSON_QUERY` no bastaba con `ORDER BY` y se cambió a `CAST(... AS JSON)` | Ejecución real: el campo sale como array |
+| Script `run_all.ps1` | Recrear la base en orden, con `-ConIA`, omitir scripts vacíos y parar en el primer error | Se aceptó la estructura. Se corrigieron tres fallos: faltaba `sqlcmd -I` (error 1934), los vacíos no se omitían (`IsNullOrWhiteSpace`) y el nombre del equipo aparecía en los errores | `run_all.ps1` desde cero en verde y sin datos del equipo en las evidencias |
+| Seguridad (`06_security.sql` y demo) | Script idempotente con 4 roles, usuarios sin inicio de sesión, RLS, DDM y demo con `EXECUTE AS` | Se aceptaron roles, permisos, RLS y máscaras. Se corrigió la limpieza de máscaras (error 16007, pasó a SQL dinámico) y la demo, donde el `ROLLBACK` del procedimiento deshacía la transacción externa | `06` ejecutado dos veces seguidas; filas distintas por comercial; errores 229 y 50103 donde tocaban; siguen 44 reservas |
+| Buscador semántico (`ai/`) | Modelo externo, embeddings, función de ranking y búsqueda por las vías SSMS y terminal | Se aceptó todo el T-SQL. Se corrigió un `/*` anidado en la cabecera de los tests (error 113) y un script de evidencia sin BOM que enviaba las tildes mal a Ollama | `run_all.ps1 -ConIA` en verde y el mismo top en las dos vías |
 
 ### 6.2 Estrategia de pruebas
 
